@@ -1,0 +1,14 @@
+{
+    {
+        "status": "admin",
+        "employees": 16,
+        "tasks": 3
+    },
+    {
+        "status": "employee",
+        "tasks": 1,
+        "deadlines": {
+                        "10.06.2024 23:59"
+                        }
+    }
+}
