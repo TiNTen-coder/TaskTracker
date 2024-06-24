@@ -31,6 +31,12 @@ class Application(tkinter.ttk.Frame):
         main_menu = tkinter.Menu(self.master)
         self.master['menu'] = main_menu
 
+        settings_menu = tkinter.Menu(main_menu, tearoff=False)
+        settings_menu.add_command(label=_('Update Info'), command=self.update_foo)
+        settings_menu.add_command(label=_('Quit'), command=self.master.destroy)
+
+        main_menu.add_cascade(label=_('Settings'), menu=settings_menu)
+
         language_menu = tkinter.Menu(main_menu, tearoff=False)
 
         self.lng_set = tkinter.IntVar()
@@ -40,6 +46,10 @@ class Application(tkinter.ttk.Frame):
         language_menu.add_radiobutton(label="Русский", variable=self.lng_set, value=1)
 
         main_menu.add_cascade(label='Language', menu=language_menu)
+
+    def update_foo(self):
+        self.ntb.destroy() 
+        self.create_widgets()
 
     def on_conf_employees(self, evt):
         """on_conf_employees.
@@ -128,22 +138,22 @@ class Application(tkinter.ttk.Frame):
     def create_widgets(self):
         """create_widgets."""
         ''' Notebook frame '''
-        ntb = tkinter.ttk.Notebook(self)
-        ntb.pack(fill="both", padx=4, pady=4, expand=True)
+        self.ntb = tkinter.ttk.Notebook(self)
+        self.ntb.pack(fill="both", padx=4, pady=4, expand=True)
         ''' end '''
 
         ''' window on Notebook '''
-        self.frame_employees = tkinter.ttk.Frame(ntb)
-        self.frame_task = tkinter.ttk.Frame(ntb)
-        self.frame_my_task = tkinter.ttk.Frame(ntb)
-        self.frame_commit_progress = tkinter.ttk.Frame(ntb)
+        self.frame_employees = tkinter.ttk.Frame(self.ntb)
+        self.frame_task = tkinter.ttk.Frame(self.ntb)
+        self.frame_my_task = tkinter.ttk.Frame(self.ntb)
+        self.frame_commit_progress = tkinter.ttk.Frame(self.ntb)
         ''' end '''
 
         ''' add '''
-        ntb.add(self.frame_employees, text=_("Employees"), padding=4)
-        ntb.add(self.frame_task, text=_("Task"), padding=4)
-        ntb.add(self.frame_my_task, text=_("My Task"), padding=4)
-        ntb.add(self.frame_commit_progress, text=_("Commit Progress"), padding=4)
+        self.ntb.add(self.frame_employees, text=_("Employees"), padding=4)
+        self.ntb.add(self.frame_task, text=_("Task"), padding=4)
+        self.ntb.add(self.frame_my_task, text=_("My Task"), padding=4)
+        self.ntb.add(self.frame_commit_progress, text=_("Commit Progress"), padding=4)
         ''' end '''
 
         ''' scrollbar on self.employees '''
@@ -233,11 +243,11 @@ class Application(tkinter.ttk.Frame):
         if user_type == 'B':
             return
 
-        self.frame_add_employees = tkinter.ttk.Frame(ntb)
-        self.frame_add_task = tkinter.ttk.Frame(ntb)
+        self.frame_add_employees = tkinter.ttk.Frame(self.ntb)
+        self.frame_add_task = tkinter.ttk.Frame(self.ntb)
 
-        ntb.add(self.frame_add_employees, text=_("Add Employees"), padding=4)
-        ntb.add(self.frame_add_task, text=_("Add Task"), padding=4)
+        self.ntb.add(self.frame_add_employees, text=_("Add Employees"), padding=4)
+        self.ntb.add(self.frame_add_task, text=_("Add Task"), padding=4)
         ''' end '''
 
         ''' scrollbar on self.add_employees '''
