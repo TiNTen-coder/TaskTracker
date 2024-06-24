@@ -236,8 +236,27 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_employees(self):
         """widgets_employees."""
-        self.lbl_employees = tkinter.ttk.Label(self.frame_employees_dop, text='ID')
-        self.lbl_employees.pack(fill="both", padx=4, pady=4, expand=True)
+        employees_info = [['228', 'Андрей Бутылкин', 'A'], ['186', 'Вячеслав Крет', 'B']]
+        ''' TODO: заполнить employees_info '''
+
+        self.lbl_employees = [[tkinter.ttk.Label(self.frame_employees_dop, text=_('ID')), 
+                               tkinter.ttk.Label(self.frame_employees_dop, text=_('Name')),
+                               tkinter.ttk.Label(self.frame_employees_dop, text=_('Type'))]]
+
+        for user in employees_info:
+            self.lbl_employees.append([])
+
+            for info in user:
+                self.lbl_employees[-1].append(tkinter.ttk.Label(self.frame_employees_dop, text=info))
+
+        for i in range(3):
+            self.frame_employees_dop.grid_columnconfigure(i, weight=1)
+
+        for i in range(len(self.lbl_employees)):
+            self.frame_employees_dop.grid_rowconfigure(i, weight=1)
+
+            for j in range(3):
+                self.lbl_employees[i][j].grid(row=i, column=j, padx=4, pady=4)
 
     def widgets_task(self):
         """widgets_task."""
