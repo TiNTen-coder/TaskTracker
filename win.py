@@ -346,9 +346,71 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_my_task(self):
         """widgets_my_task."""
-        pass
+        my_task_info = [['001', 'TaskTracker', '20', '28.06.2024', [['228', '10', 'labudabdab'], ['186', '20', 'a']]]]
+        ''' TODO: заполнить my_task_info '''
+
+        self.lbl_frame_my_task = []
+
+        for task in my_task_info:
+            style = tkinter.ttk.Style()
+            style.configure('Custom.TLabelframe.Label', font=('Arial', 16))
+
+            self.lbl_frame_my_task.append(tkinter.ttk.LabelFrame(self.frame_my_task_dop, text=_('project_id: {}, ' +\
+                                          'project_name: {}, completion_percentage: {}, deadline: {}').format(task[0], \
+                                          task[1], task[2], task[3]), labelanchor='n', style="Custom.TLabelframe"))
+
+            self.lbl_frame_my_task[-1].pack(expand=True, fill="both", padx=14, pady=14)
+            
+            lbl_my_task_i = [[tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('ID')), 
+                               tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Completion Percentage')),
+                               tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Description'))]]
+
+            for entry in task[4]:
+                lbl_my_task_i.append([])
+
+                for info in entry:
+                    lbl_my_task_i[-1].append(tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=info))
+
+            for i in range(3):
+                self.lbl_frame_my_task[-1].grid_columnconfigure(i, weight=1)
+
+            for i in range(len(lbl_my_task_i)):
+                self.lbl_frame_my_task[-1].grid_rowconfigure(i, weight=1)
+
+                for j in range(3):
+                    lbl_my_task_i[i][j].grid(row=i, column=j, padx=4, pady=4)
 
     def widgets_commit_progress(self):
+        def on_enter_press(event):
+            self.txt_description.insert(tkinter.END, '\n')
+            self.txt_description.see(tkinter.END)
+
+        lbl_task_id = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('ID'))
+        lbl_percent = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('Completion Percentage'))
+        lbl_description = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('Description'))
+
+        self.vr_task_id = tkinter.StringVar()
+        self.vr_percent = tkinter.IntVar()
+        self.vr_percent.set(0)
+
+        lbl_task_id.pack(expand=True, fill="none", padx=10, pady=10)
+        ntr_task_id = tkinter.ttk.Entry(self.frame_commit_progress_dop, textvariable=self.vr_task_id)
+        ntr_task_id.pack(expand=True, fill="none", padx=10, pady=10)
+        lbl_percent.pack(expand=True, fill="none", padx=10, pady=10)
+        spn_percent = tkinter.Spinbox(self.frame_commit_progress_dop, textvariable=self.vr_percent, from_=0, \
+                                                      to=100, increment=1, exportselection=0)
+        spn_percent.pack(expand=True, fill="none", padx=10, pady=10)
+        lbl_description.pack(expand=True, fill="none", padx=10, pady=10)
+        self.txt_description = tkinter.Text(self.frame_commit_progress_dop, wrap='word', height=10, width=40)
+        self.txt_description.pack(expand=True, fill="both", padx=10, pady=10) 
+        self.txt_description.bind('<Return>', on_enter_press)
+
+        btn_commit = tkinter.ttk.Button(self.frame_commit_progress_dop, text=_("Commit"), command=self.commit_db)
+        btn_commit.pack(expand=True, fill="none", padx=10, pady=10)
+
+    def commit_db(self):
+        "TODO: занести в базу данных всю информацию о новой записи, проверить корректность введенных данных"
+        # self.txt_description.get("1.0", tkinter.END)
         pass
 
     def widgets_add_employees(self):
