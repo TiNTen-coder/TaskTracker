@@ -28,6 +28,19 @@ class Application(tkinter.ttk.Frame):
         self.pack(expand=True, fill="both", padx=4, pady=4)
         self.master.title("TaskTracker")
 
+        main_menu = tkinter.Menu(self.master)
+        self.master['menu'] = main_menu
+
+        language_menu = tkinter.Menu(main_menu, tearoff=False)
+
+        self.lng_set = tkinter.IntVar()
+        self.lng_set.set(0) # 0--English, 1--Russian
+
+        language_menu.add_radiobutton(label="English", variable=self.lng_set, value=0)
+        language_menu.add_radiobutton(label="Русский", variable=self.lng_set, value=1)
+
+        main_menu.add_cascade(label='Language', menu=language_menu)
+
     def on_conf_employees(self, evt):
         """on_conf_employees.
 
@@ -320,7 +333,6 @@ class Application(tkinter.ttk.Frame):
 
             for j in range(6):
                 self.lbl_task[i][j].grid(row=i, column=j, padx=4, pady=4)
-
 
     def widgets_my_task(self):
         """widgets_my_task."""
