@@ -213,6 +213,7 @@ class Application(tkinter.ttk.Frame):
         self.widgets_employees()
         self.widgets_task()
         self.widgets_my_task()
+        self.widgets_commit_progress()
         ''' end '''
 
         ''' some window for admin '''
@@ -295,10 +296,37 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_task(self):
         """widgets_task."""
-        pass
+        task_info = [['001', 'TaskTracker', '228', ['186'], '20', '28.06.2024']]
+        ''' TODO: заполнить task_info '''
+        
+        self.lbl_task = [[tkinter.ttk.Label(self.frame_task_dop, text=_('ID')), 
+                               tkinter.ttk.Label(self.frame_task_dop, text=_('Project Name')),
+                               tkinter.ttk.Label(self.frame_task_dop, text=_('Supervisor')),
+                               tkinter.ttk.Label(self.frame_task_dop, text=_('Workers')), 
+                               tkinter.ttk.Label(self.frame_task_dop, text=_('Completion Percentage')),
+                               tkinter.ttk.Label(self.frame_task_dop, text=_('Deadline'))]]
+
+        for user in task_info:
+            self.lbl_task.append([])
+
+            for info in user:
+                self.lbl_task[-1].append(tkinter.ttk.Label(self.frame_task_dop, text=info))
+
+        for i in range(6):
+            self.frame_task_dop.grid_columnconfigure(i, weight=1)
+
+        for i in range(len(self.lbl_task)):
+            self.frame_task_dop.grid_rowconfigure(i, weight=1)
+
+            for j in range(6):
+                self.lbl_task[i][j].grid(row=i, column=j, padx=4, pady=4)
+
 
     def widgets_my_task(self):
         """widgets_my_task."""
+        pass
+
+    def widgets_commit_progress(self):
         pass
 
     def widgets_add_employees(self):
