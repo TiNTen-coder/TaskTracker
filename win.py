@@ -70,6 +70,20 @@ class Application(tkinter.ttk.Frame):
         """
         self.canvas_my_task.configure(scrollregion=self.canvas_my_task.bbox("all"))
 
+    def on_conf_commit_progress(self, evt):
+        """on_conf_commit_progress.
+
+        :param evt:
+        """
+        self.canvas_commit_progress.itemconfig(self.canvas_frame_commit_progress, width=evt.width)
+
+    def on_frame_conf_commit_progress(self, evt):
+        """on_frame_conf_commit_progress.
+
+        :param evt:
+        """
+        self.canvas_commit_progress.configure(scrollregion=self.canvas_commit_progress.bbox("all"))
+
     def on_conf_add_employees(self, evt):
         """on_conf_add_employees.
 
@@ -109,12 +123,14 @@ class Application(tkinter.ttk.Frame):
         self.frame_employees = tkinter.ttk.Frame(ntb)
         self.frame_task = tkinter.ttk.Frame(ntb)
         self.frame_my_task = tkinter.ttk.Frame(ntb)
+        self.frame_commit_progress = tkinter.ttk.Frame(ntb)
         ''' end '''
 
         ''' add '''
         ntb.add(self.frame_employees, text=_("Employees"), padding=4)
         ntb.add(self.frame_task, text=_("Task"), padding=4)
         ntb.add(self.frame_my_task, text=_("My Task"), padding=4)
+        ntb.add(self.frame_commit_progress, text=_("Commit Progress"), padding=4)
         ''' end '''
 
         ''' scrollbar on self.employees '''
@@ -172,6 +188,25 @@ class Application(tkinter.ttk.Frame):
 
         self.frame_my_task_dop.bind('<Configure>', self.on_frame_conf_my_task)
         self.canvas_my_task.bind('<Configure>', self.on_conf_my_task)
+        ''' end '''
+
+        ''' scrollbar on self.frame_commit_progress '''
+        self.canvas_commit_progress = tkinter.Canvas(self.frame_commit_progress)
+        self.canvas_commit_progress.pack(side='left', fill='both', expand=True)
+
+        self.frame_commit_progress_dop = tkinter.ttk.Frame(self.canvas_commit_progress)
+
+        self.canvas_frame_commit_progress = self.canvas_commit_progress.create_window((0, 0), \
+                window=self.frame_commit_progress_dop, anchor=tkinter.NW)
+
+        self.scrollbar_commit_progress = tkinter.ttk.Scrollbar(self.frame_commit_progress, orient='vertical', \
+                command=self.canvas_commit_progress.yview)
+        self.scrollbar_commit_progress.pack(side='right', fill='y')
+
+        self.canvas_commit_progress.config(yscrollcommand=self.scrollbar_commit_progress.set)
+
+        self.frame_commit_progress_dop.bind('<Configure>', self.on_frame_conf_commit_progress)
+        self.canvas_commit_progress.bind('<Configure>', self.on_conf_commit_progress)
         ''' end '''
 
         ''' fill the window in the Notebook '''
