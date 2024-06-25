@@ -1,18 +1,29 @@
 """Window."""
 import tkinter
 import tkinter.ttk
-import sys
+import os
+import gettext
+import locale
 
 
 user_type = 'A'
 
 
-def _(args):
+_podir = os.path.join('/'.join(os.path.dirname(__file__).split('/')), "po")
+
+
+TRANSLATIONS = {
+    ("ru_RU", "UTF-8"): gettext.translation("msg", _podir, ["ru_RU.UTF-8"]),
+    ("en_US", "UTF-8"): gettext.NullTranslations(),
+}
+
+
+def _(text):
     """_.
 
-    :param args:
+    :param text:
     """
-    return args
+    return TRANSLATIONS[locale.getlocale()].gettext(text)
 
 
 class Application(tkinter.ttk.Frame):
@@ -24,31 +35,17 @@ class Application(tkinter.ttk.Frame):
         :param master:
         """
         super().__init__(master)
+
+        self.lng_set = tkinter.IntVar()
+        self.lng_set.set(0)  # 0--English, 1--Russian
+
         self.create_widgets()
         self.pack(expand=True, fill="both", padx=4, pady=4)
         self.master.title("TaskTracker")
 
-        main_menu = tkinter.Menu(self.master)
-        self.master['menu'] = main_menu
-
-        settings_menu = tkinter.Menu(main_menu, tearoff=False)
-        settings_menu.add_command(label=_('Update Info'), command=self.update_foo)
-        settings_menu.add_command(label=_('Quit'), command=self.master.destroy)
-
-        main_menu.add_cascade(label=_('Settings'), menu=settings_menu)
-
-        language_menu = tkinter.Menu(main_menu, tearoff=False)
-
-        self.lng_set = tkinter.IntVar()
-        self.lng_set.set(0) # 0--English, 1--Russian
-
-        language_menu.add_radiobutton(label="English", variable=self.lng_set, value=0)
-        language_menu.add_radiobutton(label="Русский", variable=self.lng_set, value=1)
-
-        main_menu.add_cascade(label=_('Language'), menu=language_menu)
-
     def update_foo(self):
-        self.ntb.destroy() 
+        """update_foo."""
+        self.ntb.destroy()
         self.create_widgets()
 
     def on_conf_employees(self, evt):
@@ -165,6 +162,27 @@ class Application(tkinter.ttk.Frame):
 
     def create_widgets(self):
         """create_widgets."""
+        if self.lng_set.get():
+            locale.setlocale(locale.LC_ALL, ('ru_RU', 'UTF-8'))
+        else:
+            locale.setlocale(locale.LC_ALL, ('en_US', 'UTF-8'))
+
+        main_menu = tkinter.Menu(self.master)
+        self.master['menu'] = main_menu
+
+        settings_menu = tkinter.Menu(main_menu, tearoff=False)
+        settings_menu.add_command(label=_('Update Info'), command=self.update_foo)
+        settings_menu.add_command(label=_('Quit'), command=self.master.destroy)
+
+        main_menu.add_cascade(label=_('Settings'), menu=settings_menu)
+
+        language_menu = tkinter.Menu(main_menu, tearoff=False)
+
+        language_menu.add_radiobutton(label="English", variable=self.lng_set, value=0, command=self.update_foo)
+        language_menu.add_radiobutton(label="Русский", variable=self.lng_set, value=1, command=self.update_foo)
+
+        main_menu.add_cascade(label=_('Language'), menu=language_menu)
+
         ''' Notebook frame '''
         self.ntb = tkinter.ttk.Notebook(self)
         self.ntb.pack(fill="both", padx=4, pady=4, expand=True)
@@ -179,8 +197,8 @@ class Application(tkinter.ttk.Frame):
 
         ''' add '''
         self.ntb.add(self.frame_employees, text=_("Employees"), padding=4)
-        self.ntb.add(self.frame_task, text=_("Task"), padding=4)
-        self.ntb.add(self.frame_my_task, text=_("My Task"), padding=4)
+        self.ntb.add(self.frame_task, text=_("Tasks"), padding=4)
+        self.ntb.add(self.frame_my_task, text=_("My Tasks"), padding=4)
         self.ntb.add(self.frame_commit_progress, text=_("Commit Progress"), padding=4)
         ''' end '''
 
@@ -276,8 +294,8 @@ class Application(tkinter.ttk.Frame):
         self.frame_del_employees = tkinter.ttk.Frame(self.ntb)
         self.frame_del_task = tkinter.ttk.Frame(self.ntb)
 
-        self.ntb.add(self.frame_add_employees, text=_("Add Employees"), padding=4)
-        self.ntb.add(self.frame_del_employees, text=_("Delete Employees"), padding=4)
+        self.ntb.add(self.frame_add_employees, text=_("Add Employee"), padding=4)
+        self.ntb.add(self.frame_del_employees, text=_("Delete Employee"), padding=4)
         self.ntb.add(self.frame_add_task, text=_("Add Task"), padding=4)
         self.ntb.add(self.frame_del_task, text=_("Delete Task"), padding=4)
         ''' end '''
@@ -370,7 +388,7 @@ class Application(tkinter.ttk.Frame):
         employees_info = [['228', 'Андрей Бутылкин', 'A'], ['186', 'Вячеслав Крет', 'B']]
         ''' TODO: заполнить employees_info '''
 
-        self.lbl_employees = [[tkinter.ttk.Label(self.frame_employees_dop, text=_('ID'), font=('Arial', 16)), 
+        self.lbl_employees = [[tkinter.ttk.Label(self.frame_employees_dop, text=_('ID'), font=('Arial', 16)),
                                tkinter.ttk.Label(self.frame_employees_dop, text=_('Name'), font=('Arial', 16)),
                                tkinter.ttk.Label(self.frame_employees_dop, text=_('Type'), font=('Arial', 16))]]
 
@@ -393,11 +411,11 @@ class Application(tkinter.ttk.Frame):
         """widgets_task."""
         task_info = [['001', 'TaskTracker', '228', ['186'], '20', '28.06.2024']]
         ''' TODO: заполнить task_info '''
-        
-        self.lbl_task = [[tkinter.ttk.Label(self.frame_task_dop, text=_('ID'), font=('Arial', 16)), 
-                          tkinter.ttk.Label(self.frame_task_dop, text=_('Project Name'), font=('Arial', 16)),
+
+        self.lbl_task = [[tkinter.ttk.Label(self.frame_task_dop, text=_('ID'), font=('Arial', 16)),
+                          tkinter.ttk.Label(self.frame_task_dop, text=_('Task Name'), font=('Arial', 16)),
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Supervisor'), font=('Arial', 16)),
-                          tkinter.ttk.Label(self.frame_task_dop, text=_('Workers'), font=('Arial', 16)), 
+                          tkinter.ttk.Label(self.frame_task_dop, text=_('Workers'), font=('Arial', 16)),
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Completion Percentage'), font=('Arial', 16)),
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Deadline'), font=('Arial', 16))]]
 
@@ -428,8 +446,8 @@ class Application(tkinter.ttk.Frame):
             style = tkinter.ttk.Style()
             style.configure('Custom.TLabelframe.Label', font=('Arial', 16))
 
-            self.lbl_frame_my_task.append(tkinter.ttk.LabelFrame(self.frame_my_task_dop, text=_('project_id: {}, ' +\
-                                          'project_name: {}, completion_percentage: {}, deadline: {}').format(task[0], \
+            self.lbl_frame_my_task.append(tkinter.ttk.LabelFrame(self.frame_my_task_dop, text=_('task_id: {}, ' +\
+                                          'task_name: {}, completion_percentage: {}, deadline: {}').format(task[0], \
                                           task[1], task[2], task[3]), labelanchor='n', style="Custom.TLabelframe"))
 
             self.lbl_frame_my_task[-1].pack(expand=True, fill="both", padx=14, pady=14)
@@ -438,9 +456,9 @@ class Application(tkinter.ttk.Frame):
                 self.lbl_frame_my_task[-1].grid_columnconfigure(i, weight=1)
 
             lbl_my_task_description = tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=task[4])
-            lbl_my_task_description.grid(row=0, columnspan=3, padx=4, pady=4) 
-            
-            lbl_my_task_i = [[tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('ID'), font=('Arial', 16)), 
+            lbl_my_task_description.grid(row=0, columnspan=3, padx=4, pady=4)
+
+            lbl_my_task_i = [[tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('ID'), font=('Arial', 16)),
                     tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Completion Percentage'), font=('Arial', 16)),
                     tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Description'), font=('Arial', 16))]]
 
@@ -450,7 +468,6 @@ class Application(tkinter.ttk.Frame):
                 for info in entry:
                     lbl_my_task_i[-1].append(tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=info))
 
-
             for i in range(len(lbl_my_task_i)):
                 self.lbl_frame_my_task[-1].grid_rowconfigure(i+1, weight=1)
 
@@ -458,7 +475,12 @@ class Application(tkinter.ttk.Frame):
                     lbl_my_task_i[i][j].grid(row=i+1, column=j, padx=4, pady=4)
 
     def widgets_commit_progress(self):
+        """widgets_commit_progress."""
         def on_enter_press(event):
+            """on_enter_press.
+
+            :param event:
+            """
             self.txt_description.insert(tkinter.END, '\n')
             self.txt_description.see(tkinter.END)
 
@@ -477,18 +499,19 @@ class Application(tkinter.ttk.Frame):
 
         lbl_percent.pack(expand=True, fill="none", padx=10, pady=10)
         spn_percent = tkinter.Spinbox(self.frame_commit_progress_dop, textvariable=self.vr_percent, from_=0, \
-                                                      to=100, increment=1, exportselection=0)
+                                      to=100, increment=1, exportselection=0)
         spn_percent.pack(expand=True, fill="none", padx=10, pady=10)
 
         lbl_description.pack(expand=True, fill="none", padx=10, pady=10)
         self.txt_description = tkinter.Text(self.frame_commit_progress_dop, wrap='word', height=10, width=40)
-        self.txt_description.pack(expand=True, fill="both", padx=10, pady=10) 
+        self.txt_description.pack(expand=True, fill="both", padx=10, pady=10)
         self.txt_description.bind('<Return>', on_enter_press)
 
         btn_commit = tkinter.ttk.Button(self.frame_commit_progress_dop, text=_("Commit"), command=self.commit_db)
         btn_commit.pack(expand=True, fill="none", padx=10, pady=10)
 
     def commit_db(self):
+        """commit_db."""
         """TODO: занести в базу данных всю информацию о новой записи, проверить корректность введенных данных"""
         # self.txt_description.get("1.0", tkinter.END)
         # после этого выполняется следующий блок код
@@ -520,11 +543,12 @@ class Application(tkinter.ttk.Frame):
         self.lst_user_type.insert(tkinter.END, 'B')
         self.lst_user_type.pack(expand=True, fill="none", padx=10, pady=10)
 
-        btn_add_user = tkinter.ttk.Button(self.frame_add_employees_dop, text=_("Add Employees"), \
+        btn_add_user = tkinter.ttk.Button(self.frame_add_employees_dop, text=_("Add Employee"), \
                 command=self.add_user_db)
         btn_add_user.pack(expand=True, fill="none", padx=10, pady=10)
 
     def add_user_db(self):
+        """add_user_db."""
         """TODO: занести в базу данных всю информацию о новом работяге, проверить корректность введенных данных"""
         # после этого выполняется следующий блок код
 
@@ -532,7 +556,7 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_del_employees(self):
         """widgets_employees."""
-        lbl_user_id = tkinter.ttk.Label(self.frame_del_employees_dop, text=_('Employees ID'), font=('Arial', 16))
+        lbl_user_id = tkinter.ttk.Label(self.frame_del_employees_dop, text=_('Employee ID'), font=('Arial', 16))
 
         self.vr_user_id = tkinter.StringVar()
 
@@ -540,12 +564,13 @@ class Application(tkinter.ttk.Frame):
         ntr_user_id = tkinter.ttk.Entry(self.frame_del_employees_dop, textvariable=self.vr_user_id)
         ntr_user_id.pack(expand=True, fill="none", padx=10, pady=10)
 
-        btn_del_user = tkinter.ttk.Button(self.frame_del_employees_dop, text=_("Delete Employees"), \
+        btn_del_user = tkinter.ttk.Button(self.frame_del_employees_dop, text=_("Delete Employee"), \
                 command=self.del_user_db)
         btn_del_user.pack(expand=True, fill="none", padx=10, pady=10)
 
     def del_user_db(self):
-        """TODO: удалить из базы данных всю информацию о пользователе (и в задачах тоже(кто коммитил оставить)), 
+        """del_user_db."""
+        """TODO: удалить из базы данных всю информацию о пользователе (и в задачах тоже(кто коммитил оставить)),
         проверить корректность введенных данных"""
         # после этого выполняется следующий блок код
 
@@ -554,6 +579,10 @@ class Application(tkinter.ttk.Frame):
     def widgets_add_task(self):
         """widgets_task."""
         def on_enter_press(event):
+            """on_enter_press.
+
+            :param event:
+            """
             self.txt_task_description.insert(tkinter.END, '\n')
             self.txt_task_description.see(tkinter.END)
 
@@ -583,7 +612,7 @@ class Application(tkinter.ttk.Frame):
 
         lbl_task_description.pack(expand=True, fill="none", padx=10, pady=10)
         self.txt_task_description = tkinter.Text(self.frame_add_task_dop, wrap='word', height=10, width=40)
-        self.txt_task_description.pack(expand=True, fill="both", padx=10, pady=10) 
+        self.txt_task_description.pack(expand=True, fill="both", padx=10, pady=10)
         self.txt_task_description.bind('<Return>', on_enter_press)
 
         lbl_task_deadline.pack(expand=True, fill="none", padx=10, pady=10)
@@ -595,6 +624,7 @@ class Application(tkinter.ttk.Frame):
         btn_add_task.pack(expand=True, fill="none", padx=10, pady=10)
 
     def add_task_db(self):
+        """add_task_db."""
         """TODO: занести в базу данных всю информацию о новой задаче, проверить корректность введенных данных"""
         # после этого выполняется следующий блок код
 
@@ -615,16 +645,18 @@ class Application(tkinter.ttk.Frame):
         btn_del_task.pack(expand=True, fill="none", padx=10, pady=10)
 
     def del_task_db(self):
+        """del_task_db."""
         """TODO: удалить из базы данных всю информацию о задаче, проверить корректность введенных данных"""
         # после этого выполняется следующий блок код
 
         self.update_foo()
 
 
-""" TODO: авторизация, проверка user_name, user_password
-и добавление в user_type его тип 'B' -- zavod, 'A' иначе """
-
-root = tkinter.Tk()
-root.geometry("1280x720")
-app = Application(root)
-root.mainloop()
+def pre_main():
+    """pre_main."""
+    """ TODO: авторизация, проверка user_name, user_password
+    и добавление в user_type его тип 'B' -- zavod, 'A' иначе """
+    root = tkinter.Tk()
+    root.geometry("1280x720")
+    Application(root)
+    root.mainloop()
