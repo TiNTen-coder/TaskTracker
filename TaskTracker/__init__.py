@@ -44,6 +44,7 @@ class Application(tkinter.ttk.Frame):
         self.master.title("TaskTracker")
 
     def update_foo(self):
+        """update_foo."""
         self.ntb.destroy()
         self.create_widgets()
 
@@ -474,7 +475,12 @@ class Application(tkinter.ttk.Frame):
                     lbl_my_task_i[i][j].grid(row=i+1, column=j, padx=4, pady=4)
 
     def widgets_commit_progress(self):
+        """widgets_commit_progress."""
         def on_enter_press(event):
+            """on_enter_press.
+
+            :param event:
+            """
             self.txt_description.insert(tkinter.END, '\n')
             self.txt_description.see(tkinter.END)
 
@@ -505,6 +511,7 @@ class Application(tkinter.ttk.Frame):
         btn_commit.pack(expand=True, fill="none", padx=10, pady=10)
 
     def commit_db(self):
+        """commit_db."""
         """TODO: занести в базу данных всю информацию о новой записи, проверить корректность введенных данных"""
         # self.txt_description.get("1.0", tkinter.END)
         # после этого выполняется следующий блок код
@@ -541,6 +548,7 @@ class Application(tkinter.ttk.Frame):
         btn_add_user.pack(expand=True, fill="none", padx=10, pady=10)
 
     def add_user_db(self):
+        """add_user_db."""
         """TODO: занести в базу данных всю информацию о новом работяге, проверить корректность введенных данных"""
         # после этого выполняется следующий блок код
 
@@ -561,6 +569,7 @@ class Application(tkinter.ttk.Frame):
         btn_del_user.pack(expand=True, fill="none", padx=10, pady=10)
 
     def del_user_db(self):
+        """del_user_db."""
         """TODO: удалить из базы данных всю информацию о пользователе (и в задачах тоже(кто коммитил оставить)),
         проверить корректность введенных данных"""
         # после этого выполняется следующий блок код
@@ -570,6 +579,10 @@ class Application(tkinter.ttk.Frame):
     def widgets_add_task(self):
         """widgets_task."""
         def on_enter_press(event):
+            """on_enter_press.
+
+            :param event:
+            """
             self.txt_task_description.insert(tkinter.END, '\n')
             self.txt_task_description.see(tkinter.END)
 
@@ -611,6 +624,7 @@ class Application(tkinter.ttk.Frame):
         btn_add_task.pack(expand=True, fill="none", padx=10, pady=10)
 
     def add_task_db(self):
+        """add_task_db."""
         """TODO: занести в базу данных всю информацию о новой задаче, проверить корректность введенных данных"""
         # после этого выполняется следующий блок код
 
@@ -631,6 +645,7 @@ class Application(tkinter.ttk.Frame):
         btn_del_task.pack(expand=True, fill="none", padx=10, pady=10)
 
     def del_task_db(self):
+        """del_task_db."""
         """TODO: удалить из базы данных всю информацию о задаче, проверить корректность введенных данных"""
         # после этого выполняется следующий блок код
 
@@ -638,6 +653,7 @@ class Application(tkinter.ttk.Frame):
 
 
 def pre_main():
+    """pre_main."""
     """ TODO: авторизация, проверка user_name, user_password
     и добавление в user_type его тип 'B' -- zavod, 'A' иначе """
     root = tkinter.Tk()
