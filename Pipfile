@@ -11,6 +11,8 @@ psycopg2-binary = "*"
 flake8 = "*"
 pydocstyle = "*"
 babel = "*"
+doit = "*"
+sphinx = "*"
 
 [requires]
 python_version = "3.12"
