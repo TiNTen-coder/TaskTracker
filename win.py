@@ -121,6 +121,20 @@ class Application(tkinter.ttk.Frame):
         """
         self.canvas_add_employees.configure(scrollregion=self.canvas_add_employees.bbox("all"))
 
+    def on_conf_del_employees(self, evt):
+        """on_conf_del_employees.
+
+        :param evt:
+        """
+        self.canvas_del_employees.itemconfig(self.canvas_frame_del_employees, width=evt.width)
+
+    def on_frame_conf_del_employees(self, evt):
+        """on_frame_conf_del_employees.
+
+        :param evt:
+        """
+        self.canvas_del_employees.configure(scrollregion=self.canvas_del_employees.bbox("all"))
+
     def on_conf_add_task(self, evt):
         """on_conf_add_task.
 
@@ -134,6 +148,20 @@ class Application(tkinter.ttk.Frame):
         :param evt:
         """
         self.canvas_add_task.configure(scrollregion=self.canvas_add_task.bbox("all"))
+
+    def on_conf_del_task(self, evt):
+        """on_conf_del_task.
+
+        :param evt:
+        """
+        self.canvas_del_task.itemconfig(self.canvas_frame_del_task, width=evt.width)
+
+    def on_frame_conf_del_task(self, evt):
+        """on_frame_conf_del_task.
+
+        :param evt:
+        """
+        self.canvas_del_task.configure(scrollregion=self.canvas_del_task.bbox("all"))
 
     def create_widgets(self):
         """create_widgets."""
@@ -273,6 +301,25 @@ class Application(tkinter.ttk.Frame):
         self.canvas_add_employees.bind('<Configure>', self.on_conf_add_employees)
         ''' end '''
 
+        ''' scrollbar on self.del_employees '''
+        self.canvas_del_employees = tkinter.Canvas(self.frame_del_employees)
+        self.canvas_del_employees.pack(side='left', fill='both', expand=True)
+
+        self.frame_del_employees_dop = tkinter.ttk.Frame(self.canvas_del_employees)
+
+        self.canvas_frame_del_employees = self.canvas_del_employees.create_window((0, 0), \
+                window=self.frame_del_employees_dop, anchor=tkinter.NW)
+
+        self.scrollbar_del_employees = tkinter.ttk.Scrollbar(self.frame_del_employees, orient='vertical', \
+                command=self.canvas_del_employees.yview)
+        self.scrollbar_del_employees.pack(side='right', fill='y')
+
+        self.canvas_del_employees.config(yscrollcommand=self.scrollbar_del_employees.set)
+
+        self.frame_del_employees_dop.bind('<Configure>', self.on_frame_conf_del_employees)
+        self.canvas_del_employees.bind('<Configure>', self.on_conf_del_employees)
+        ''' end '''
+
         ''' scrollbar on self.frame_add_task '''
         self.canvas_add_task = tkinter.Canvas(self.frame_add_task)
         self.canvas_add_task.pack(side='left', fill='both', expand=True)
@@ -292,9 +339,30 @@ class Application(tkinter.ttk.Frame):
         self.canvas_add_task.bind('<Configure>', self.on_conf_add_task)
         ''' end '''
 
+        ''' scrollbar on self.frame_del_task '''
+        self.canvas_del_task = tkinter.Canvas(self.frame_del_task)
+        self.canvas_del_task.pack(side='left', fill='both', expand=True)
+
+        self.frame_del_task_dop = tkinter.ttk.Frame(self.canvas_del_task)
+
+        self.canvas_frame_del_task = self.canvas_del_task.create_window((0, 0), \
+                window=self.frame_del_task_dop, anchor=tkinter.NW)
+
+        self.scrollbar_del_task = tkinter.ttk.Scrollbar(self.frame_del_task, orient='vertical', \
+                command=self.canvas_del_task.yview)
+        self.scrollbar_del_task.pack(side='right', fill='y')
+
+        self.canvas_del_task.config(yscrollcommand=self.scrollbar_del_task.set)
+
+        self.frame_del_task_dop.bind('<Configure>', self.on_frame_conf_del_task)
+        self.canvas_del_task.bind('<Configure>', self.on_conf_del_task)
+        ''' end '''
+
         ''' fill the window in the Notebook '''
         self.widgets_add_employees()
+        self.widgets_del_employees()
         self.widgets_add_task()
+        self.widgets_del_task()
         ''' end '''
 
     def widgets_employees(self):
