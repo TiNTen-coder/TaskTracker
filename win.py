@@ -418,7 +418,8 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_my_task(self):
         """widgets_my_task."""
-        my_task_info = [['001', 'TaskTracker', '20', '28.06.2024', [['228', '10', 'labudabdab'], ['186', '20', 'a']]]]
+        my_task_info = [['001', 'TaskTracker', '20', '28.06.2024', "Description: need to close the 3rd course", \
+                [['228', '10', 'labudabdab'], ['186', '20', 'a']]]]
         ''' TODO: заполнить my_task_info '''
 
         self.lbl_frame_my_task = []
@@ -432,25 +433,29 @@ class Application(tkinter.ttk.Frame):
                                           task[1], task[2], task[3]), labelanchor='n', style="Custom.TLabelframe"))
 
             self.lbl_frame_my_task[-1].pack(expand=True, fill="both", padx=14, pady=14)
+
+            for i in range(3):
+                self.lbl_frame_my_task[-1].grid_columnconfigure(i, weight=1)
+
+            lbl_my_task_description = tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=task[4])
+            lbl_my_task_description.grid(row=0, columnspan=3, padx=4, pady=4) 
             
             lbl_my_task_i = [[tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('ID'), font=('Arial', 16)), 
                     tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Completion Percentage'), font=('Arial', 16)),
                     tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Description'), font=('Arial', 16))]]
 
-            for entry in task[4]:
+            for entry in task[5]:
                 lbl_my_task_i.append([])
 
                 for info in entry:
                     lbl_my_task_i[-1].append(tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=info))
 
-            for i in range(3):
-                self.lbl_frame_my_task[-1].grid_columnconfigure(i, weight=1)
 
             for i in range(len(lbl_my_task_i)):
-                self.lbl_frame_my_task[-1].grid_rowconfigure(i, weight=1)
+                self.lbl_frame_my_task[-1].grid_rowconfigure(i+1, weight=1)
 
                 for j in range(3):
-                    lbl_my_task_i[i][j].grid(row=i, column=j, padx=4, pady=4)
+                    lbl_my_task_i[i][j].grid(row=i+1, column=j, padx=4, pady=4)
 
     def widgets_commit_progress(self):
         def on_enter_press(event):
