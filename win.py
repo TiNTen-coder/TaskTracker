@@ -484,11 +484,42 @@ class Application(tkinter.ttk.Frame):
     def commit_db(self):
         """TODO: занести в базу данных всю информацию о новой записи, проверить корректность введенных данных"""
         # self.txt_description.get("1.0", tkinter.END)
-        pass
+        # после этого выполняется следующий блок код
+
+        self.update_foo()
 
     def widgets_add_employees(self):
         """widgets_employees."""
-        pass
+        lbl_user_name = tkinter.ttk.Label(self.frame_add_employees_dop, text=_('Name'), font=('Arial', 16))
+        lbl_user_password = tkinter.ttk.Label(self.frame_add_employees_dop, text=_('Password'), font=('Arial', 16))
+        lbl_user_type = tkinter.ttk.Label(self.frame_add_employees_dop, text=_('Type'), font=('Arial', 16))
+
+        self.vr_user_name = tkinter.StringVar()
+        self.vr_user_password = tkinter.StringVar()
+        self.vr_user_type = tkinter.StringVar()
+
+        lbl_user_name.pack(expand=True, fill="none", padx=10, pady=10)
+        ntr_user_name = tkinter.ttk.Entry(self.frame_add_employees_dop, textvariable=self.vr_user_name)
+        ntr_user_name.pack(expand=True, fill="none", padx=10, pady=10)
+        lbl_user_password.pack(expand=True, fill="none", padx=10, pady=10)
+        ntr_user_password = tkinter.ttk.Entry(self.frame_add_employees_dop, textvariable=self.vr_user_password)
+        ntr_user_password.pack(expand=True, fill="none", padx=10, pady=10)
+        lbl_user_type.pack(expand=True, fill="none", padx=10, pady=10)
+        lst_user_type = tkinter.Listbox(self.frame_add_employees_dop, width=3, height=2, exportselection=0, \
+                activestyle='dotbox')
+        lst_user_type.insert(tkinter.END, 'A')
+        lst_user_type.insert(tkinter.END, 'B')
+        lst_user_type.pack(expand=True, fill="none", padx=10, pady=10)
+
+        btn_add_user = tkinter.ttk.Button(self.frame_add_employees_dop, text=_("Add Employees"), \
+                command=self.add_user_db)
+        btn_add_user.pack(expand=True, fill="none", padx=10, pady=10)
+
+    def add_user_db(self):
+        """TODO: занести в базу данных всю информацию о новом работяге, проверить корректность введенных данных"""
+        # после этого выполняется следующий блок код
+
+        self.update_foo()
 
     def widgets_del_employees(self):
         """widgets_employees."""
