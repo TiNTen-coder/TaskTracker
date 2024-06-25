@@ -37,16 +37,14 @@ class Application(tkinter.ttk.Frame):
         super().__init__(master)
 
         self.lng_set = tkinter.IntVar()
-        self.lng_set.set(0) # 0--English, 1--Russian
-
-
+        self.lng_set.set(0)  # 0--English, 1--Russian
 
         self.create_widgets()
         self.pack(expand=True, fill="both", padx=4, pady=4)
         self.master.title("TaskTracker")
 
     def update_foo(self):
-        self.ntb.destroy() 
+        self.ntb.destroy()
         self.create_widgets()
 
     def on_conf_employees(self, evt):
@@ -389,7 +387,7 @@ class Application(tkinter.ttk.Frame):
         employees_info = [['228', 'Андрей Бутылкин', 'A'], ['186', 'Вячеслав Крет', 'B']]
         ''' TODO: заполнить employees_info '''
 
-        self.lbl_employees = [[tkinter.ttk.Label(self.frame_employees_dop, text=_('ID'), font=('Arial', 16)), 
+        self.lbl_employees = [[tkinter.ttk.Label(self.frame_employees_dop, text=_('ID'), font=('Arial', 16)),
                                tkinter.ttk.Label(self.frame_employees_dop, text=_('Name'), font=('Arial', 16)),
                                tkinter.ttk.Label(self.frame_employees_dop, text=_('Type'), font=('Arial', 16))]]
 
@@ -412,11 +410,11 @@ class Application(tkinter.ttk.Frame):
         """widgets_task."""
         task_info = [['001', 'TaskTracker', '228', ['186'], '20', '28.06.2024']]
         ''' TODO: заполнить task_info '''
-        
-        self.lbl_task = [[tkinter.ttk.Label(self.frame_task_dop, text=_('ID'), font=('Arial', 16)), 
+
+        self.lbl_task = [[tkinter.ttk.Label(self.frame_task_dop, text=_('ID'), font=('Arial', 16)),
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Task Name'), font=('Arial', 16)),
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Supervisor'), font=('Arial', 16)),
-                          tkinter.ttk.Label(self.frame_task_dop, text=_('Workers'), font=('Arial', 16)), 
+                          tkinter.ttk.Label(self.frame_task_dop, text=_('Workers'), font=('Arial', 16)),
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Completion Percentage'), font=('Arial', 16)),
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Deadline'), font=('Arial', 16))]]
 
@@ -457,9 +455,9 @@ class Application(tkinter.ttk.Frame):
                 self.lbl_frame_my_task[-1].grid_columnconfigure(i, weight=1)
 
             lbl_my_task_description = tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=task[4])
-            lbl_my_task_description.grid(row=0, columnspan=3, padx=4, pady=4) 
-            
-            lbl_my_task_i = [[tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('ID'), font=('Arial', 16)), 
+            lbl_my_task_description.grid(row=0, columnspan=3, padx=4, pady=4)
+
+            lbl_my_task_i = [[tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('ID'), font=('Arial', 16)),
                     tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Completion Percentage'), font=('Arial', 16)),
                     tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Description'), font=('Arial', 16))]]
 
@@ -468,7 +466,6 @@ class Application(tkinter.ttk.Frame):
 
                 for info in entry:
                     lbl_my_task_i[-1].append(tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=info))
-
 
             for i in range(len(lbl_my_task_i)):
                 self.lbl_frame_my_task[-1].grid_rowconfigure(i+1, weight=1)
@@ -496,12 +493,12 @@ class Application(tkinter.ttk.Frame):
 
         lbl_percent.pack(expand=True, fill="none", padx=10, pady=10)
         spn_percent = tkinter.Spinbox(self.frame_commit_progress_dop, textvariable=self.vr_percent, from_=0, \
-                                                      to=100, increment=1, exportselection=0)
+                                      to=100, increment=1, exportselection=0)
         spn_percent.pack(expand=True, fill="none", padx=10, pady=10)
 
         lbl_description.pack(expand=True, fill="none", padx=10, pady=10)
         self.txt_description = tkinter.Text(self.frame_commit_progress_dop, wrap='word', height=10, width=40)
-        self.txt_description.pack(expand=True, fill="both", padx=10, pady=10) 
+        self.txt_description.pack(expand=True, fill="both", padx=10, pady=10)
         self.txt_description.bind('<Return>', on_enter_press)
 
         btn_commit = tkinter.ttk.Button(self.frame_commit_progress_dop, text=_("Commit"), command=self.commit_db)
@@ -564,7 +561,7 @@ class Application(tkinter.ttk.Frame):
         btn_del_user.pack(expand=True, fill="none", padx=10, pady=10)
 
     def del_user_db(self):
-        """TODO: удалить из базы данных всю информацию о пользователе (и в задачах тоже(кто коммитил оставить)), 
+        """TODO: удалить из базы данных всю информацию о пользователе (и в задачах тоже(кто коммитил оставить)),
         проверить корректность введенных данных"""
         # после этого выполняется следующий блок код
 
@@ -602,7 +599,7 @@ class Application(tkinter.ttk.Frame):
 
         lbl_task_description.pack(expand=True, fill="none", padx=10, pady=10)
         self.txt_task_description = tkinter.Text(self.frame_add_task_dop, wrap='word', height=10, width=40)
-        self.txt_task_description.pack(expand=True, fill="both", padx=10, pady=10) 
+        self.txt_task_description.pack(expand=True, fill="both", padx=10, pady=10)
         self.txt_task_description.bind('<Return>', on_enter_press)
 
         lbl_task_deadline.pack(expand=True, fill="none", padx=10, pady=10)
@@ -645,5 +642,5 @@ def pre_main():
     и добавление в user_type его тип 'B' -- zavod, 'A' иначе """
     root = tkinter.Tk()
     root.geometry("1280x720")
-    app = Application(root)
+    Application(root)
     root.mainloop()
