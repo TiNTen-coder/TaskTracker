@@ -39,21 +39,7 @@ class Application(tkinter.ttk.Frame):
         self.lng_set = tkinter.IntVar()
         self.lng_set.set(0) # 0--English, 1--Russian
 
-        main_menu = tkinter.Menu(self.master)
-        self.master['menu'] = main_menu
 
-        settings_menu = tkinter.Menu(main_menu, tearoff=False)
-        settings_menu.add_command(label=_('Update Info'), command=self.update_foo)
-        settings_menu.add_command(label=_('Quit'), command=self.master.destroy)
-
-        main_menu.add_cascade(label=_('Settings'), menu=settings_menu)
-
-        language_menu = tkinter.Menu(main_menu, tearoff=False)
-
-        language_menu.add_radiobutton(label="English", variable=self.lng_set, value=0, command=self.update_foo)
-        language_menu.add_radiobutton(label="Русский", variable=self.lng_set, value=1, command=self.update_foo)
-
-        main_menu.add_cascade(label=_('Language'), menu=language_menu)
 
         self.create_widgets()
         self.pack(expand=True, fill="both", padx=4, pady=4)
@@ -181,6 +167,22 @@ class Application(tkinter.ttk.Frame):
             locale.setlocale(locale.LC_ALL, ('ru_RU', 'UTF-8'))
         else:
             locale.setlocale(locale.LC_ALL, ('en_US', 'UTF-8'))
+
+        main_menu = tkinter.Menu(self.master)
+        self.master['menu'] = main_menu
+
+        settings_menu = tkinter.Menu(main_menu, tearoff=False)
+        settings_menu.add_command(label=_('Update Info'), command=self.update_foo)
+        settings_menu.add_command(label=_('Quit'), command=self.master.destroy)
+
+        main_menu.add_cascade(label=_('Settings'), menu=settings_menu)
+
+        language_menu = tkinter.Menu(main_menu, tearoff=False)
+
+        language_menu.add_radiobutton(label="English", variable=self.lng_set, value=0, command=self.update_foo)
+        language_menu.add_radiobutton(label="Русский", variable=self.lng_set, value=1, command=self.update_foo)
+
+        main_menu.add_cascade(label=_('Language'), menu=language_menu)
 
         ''' Notebook frame '''
         self.ntb = tkinter.ttk.Notebook(self)
