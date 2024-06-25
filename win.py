@@ -45,7 +45,7 @@ class Application(tkinter.ttk.Frame):
         language_menu.add_radiobutton(label="English", variable=self.lng_set, value=0)
         language_menu.add_radiobutton(label="Русский", variable=self.lng_set, value=1)
 
-        main_menu.add_cascade(label='Language', menu=language_menu)
+        main_menu.add_cascade(label=_('Language'), menu=language_menu)
 
     def update_foo(self):
         self.ntb.destroy() 
@@ -401,10 +401,10 @@ class Application(tkinter.ttk.Frame):
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Completion Percentage'), font=('Arial', 16)),
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Deadline'), font=('Arial', 16))]]
 
-        for user in task_info:
+        for task in task_info:
             self.lbl_task.append([])
 
-            for info in user:
+            for info in task:
                 self.lbl_task[-1].append(tkinter.ttk.Label(self.frame_task_dop, text=info))
 
         for i in range(6):
@@ -505,11 +505,11 @@ class Application(tkinter.ttk.Frame):
         ntr_user_password = tkinter.ttk.Entry(self.frame_add_employees_dop, textvariable=self.vr_user_password)
         ntr_user_password.pack(expand=True, fill="none", padx=10, pady=10)
         lbl_user_type.pack(expand=True, fill="none", padx=10, pady=10)
-        lst_user_type = tkinter.Listbox(self.frame_add_employees_dop, width=3, height=2, exportselection=0, \
+        self.lst_user_type = tkinter.Listbox(self.frame_add_employees_dop, width=3, height=2, exportselection=0, \
                 activestyle='dotbox')
-        lst_user_type.insert(tkinter.END, 'A')
-        lst_user_type.insert(tkinter.END, 'B')
-        lst_user_type.pack(expand=True, fill="none", padx=10, pady=10)
+        self.lst_user_type.insert(tkinter.END, 'A')
+        self.lst_user_type.insert(tkinter.END, 'B')
+        self.lst_user_type.pack(expand=True, fill="none", padx=10, pady=10)
 
         btn_add_user = tkinter.ttk.Button(self.frame_add_employees_dop, text=_("Add Employees"), \
                 command=self.add_user_db)
@@ -523,7 +523,24 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_del_employees(self):
         """widgets_employees."""
-        pass
+        lbl_user_id = tkinter.ttk.Label(self.frame_del_employees_dop, text=_('Employees ID'), font=('Arial', 16))
+
+        self.vr_user_id = tkinter.StringVar()
+
+        lbl_user_id.pack(expand=True, fill="none", padx=10, pady=10)
+        ntr_user_id = tkinter.ttk.Entry(self.frame_del_employees_dop, textvariable=self.vr_user_id)
+        ntr_user_id.pack(expand=True, fill="none", padx=10, pady=10)
+
+        btn_del_user = tkinter.ttk.Button(self.frame_del_employees_dop, text=_("Delete Employees"), \
+                command=self.del_user_db)
+        btn_del_user.pack(expand=True, fill="none", padx=10, pady=10)
+
+    def del_user_db(self):
+        """TODO: удалить из базы данных всю информацию о пользователе (и в задачах тоже(кто коммитил оставить)), 
+        проверить корректность введенных данных"""
+        # после этого выполняется следующий блок код
+
+        self.update_foo()
 
     def widgets_add_task(self):
         """widgets_task."""
