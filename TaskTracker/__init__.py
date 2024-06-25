@@ -9,7 +9,7 @@ import locale
 user_type = 'A'
 
 
-_podir = os.path.join('/'.join(os.path.dirname(__file__).split('/')[:-1]), "po")
+_podir = os.path.join('/'.join(os.path.dirname(__file__).split('/')), "po")
 
 
 TRANSLATIONS = {
@@ -18,7 +18,7 @@ TRANSLATIONS = {
 }
 
 
-def _(lcl, text):
+def _(text):
     """_.
 
     :param text:
@@ -35,9 +35,6 @@ class Application(tkinter.ttk.Frame):
         :param master:
         """
         super().__init__(master)
-        self.create_widgets()
-        self.pack(expand=True, fill="both", padx=4, pady=4)
-        self.master.title("TaskTracker")
 
         self.lng_set = tkinter.IntVar()
         self.lng_set.set(0) # 0--English, 1--Russian
@@ -53,10 +50,14 @@ class Application(tkinter.ttk.Frame):
 
         language_menu = tkinter.Menu(main_menu, tearoff=False)
 
-        language_menu.add_radiobutton(label="English", variable=self.lng_set, value=0)
-        language_menu.add_radiobutton(label="Русский", variable=self.lng_set, value=1)
+        language_menu.add_radiobutton(label="English", variable=self.lng_set, value=0, command=self.update_foo)
+        language_menu.add_radiobutton(label="Русский", variable=self.lng_set, value=1, command=self.update_foo)
 
         main_menu.add_cascade(label=_('Language'), menu=language_menu)
+
+        self.create_widgets()
+        self.pack(expand=True, fill="both", padx=4, pady=4)
+        self.master.title("TaskTracker")
 
     def update_foo(self):
         self.ntb.destroy() 
@@ -195,8 +196,8 @@ class Application(tkinter.ttk.Frame):
 
         ''' add '''
         self.ntb.add(self.frame_employees, text=_("Employees"), padding=4)
-        self.ntb.add(self.frame_task, text=_("Task"), padding=4)
-        self.ntb.add(self.frame_my_task, text=_("My Task"), padding=4)
+        self.ntb.add(self.frame_task, text=_("Tasks"), padding=4)
+        self.ntb.add(self.frame_my_task, text=_("My Tasks"), padding=4)
         self.ntb.add(self.frame_commit_progress, text=_("Commit Progress"), padding=4)
         ''' end '''
 
@@ -292,8 +293,8 @@ class Application(tkinter.ttk.Frame):
         self.frame_del_employees = tkinter.ttk.Frame(self.ntb)
         self.frame_del_task = tkinter.ttk.Frame(self.ntb)
 
-        self.ntb.add(self.frame_add_employees, text=_("Add Employees"), padding=4)
-        self.ntb.add(self.frame_del_employees, text=_("Delete Employees"), padding=4)
+        self.ntb.add(self.frame_add_employees, text=_("Add Employee"), padding=4)
+        self.ntb.add(self.frame_del_employees, text=_("Delete Employee"), padding=4)
         self.ntb.add(self.frame_add_task, text=_("Add Task"), padding=4)
         self.ntb.add(self.frame_del_task, text=_("Delete Task"), padding=4)
         ''' end '''
@@ -411,7 +412,7 @@ class Application(tkinter.ttk.Frame):
         ''' TODO: заполнить task_info '''
         
         self.lbl_task = [[tkinter.ttk.Label(self.frame_task_dop, text=_('ID'), font=('Arial', 16)), 
-                          tkinter.ttk.Label(self.frame_task_dop, text=_('Project Name'), font=('Arial', 16)),
+                          tkinter.ttk.Label(self.frame_task_dop, text=_('Task Name'), font=('Arial', 16)),
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Supervisor'), font=('Arial', 16)),
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Workers'), font=('Arial', 16)), 
                           tkinter.ttk.Label(self.frame_task_dop, text=_('Completion Percentage'), font=('Arial', 16)),
@@ -444,8 +445,8 @@ class Application(tkinter.ttk.Frame):
             style = tkinter.ttk.Style()
             style.configure('Custom.TLabelframe.Label', font=('Arial', 16))
 
-            self.lbl_frame_my_task.append(tkinter.ttk.LabelFrame(self.frame_my_task_dop, text=_('project_id: {}, ' +\
-                                          'project_name: {}, completion_percentage: {}, deadline: {}').format(task[0], \
+            self.lbl_frame_my_task.append(tkinter.ttk.LabelFrame(self.frame_my_task_dop, text=_('task_id: {}, ' +\
+                                          'task_name: {}, completion_percentage: {}, deadline: {}').format(task[0], \
                                           task[1], task[2], task[3]), labelanchor='n', style="Custom.TLabelframe"))
 
             self.lbl_frame_my_task[-1].pack(expand=True, fill="both", padx=14, pady=14)
@@ -536,7 +537,7 @@ class Application(tkinter.ttk.Frame):
         self.lst_user_type.insert(tkinter.END, 'B')
         self.lst_user_type.pack(expand=True, fill="none", padx=10, pady=10)
 
-        btn_add_user = tkinter.ttk.Button(self.frame_add_employees_dop, text=_("Add Employees"), \
+        btn_add_user = tkinter.ttk.Button(self.frame_add_employees_dop, text=_("Add Employee"), \
                 command=self.add_user_db)
         btn_add_user.pack(expand=True, fill="none", padx=10, pady=10)
 
@@ -548,7 +549,7 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_del_employees(self):
         """widgets_employees."""
-        lbl_user_id = tkinter.ttk.Label(self.frame_del_employees_dop, text=_('Employees ID'), font=('Arial', 16))
+        lbl_user_id = tkinter.ttk.Label(self.frame_del_employees_dop, text=_('Employee ID'), font=('Arial', 16))
 
         self.vr_user_id = tkinter.StringVar()
 
@@ -556,7 +557,7 @@ class Application(tkinter.ttk.Frame):
         ntr_user_id = tkinter.ttk.Entry(self.frame_del_employees_dop, textvariable=self.vr_user_id)
         ntr_user_id.pack(expand=True, fill="none", padx=10, pady=10)
 
-        btn_del_user = tkinter.ttk.Button(self.frame_del_employees_dop, text=_("Delete Employees"), \
+        btn_del_user = tkinter.ttk.Button(self.frame_del_employees_dop, text=_("Delete Employee"), \
                 command=self.del_user_db)
         btn_del_user.pack(expand=True, fill="none", padx=10, pady=10)
 
