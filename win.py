@@ -245,9 +245,13 @@ class Application(tkinter.ttk.Frame):
 
         self.frame_add_employees = tkinter.ttk.Frame(self.ntb)
         self.frame_add_task = tkinter.ttk.Frame(self.ntb)
+        self.frame_del_employees = tkinter.ttk.Frame(self.ntb)
+        self.frame_del_task = tkinter.ttk.Frame(self.ntb)
 
         self.ntb.add(self.frame_add_employees, text=_("Add Employees"), padding=4)
+        self.ntb.add(self.frame_del_employees, text=_("Delete Employees"), padding=4)
         self.ntb.add(self.frame_add_task, text=_("Add Task"), padding=4)
+        self.ntb.add(self.frame_del_task, text=_("Delete Task"), padding=4)
         ''' end '''
 
         ''' scrollbar on self.add_employees '''
@@ -418,7 +422,15 @@ class Application(tkinter.ttk.Frame):
         """widgets_employees."""
         pass
 
+    def widgets_del_employees(self):
+        """widgets_employees."""
+        pass
+
     def widgets_add_task(self):
+        """widgets_task."""
+        pass
+
+    def widgets_del_task(self):
         """widgets_task."""
         pass
 
