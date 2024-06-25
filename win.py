@@ -469,10 +469,12 @@ class Application(tkinter.ttk.Frame):
         lbl_task_id.pack(expand=True, fill="none", padx=10, pady=10)
         ntr_task_id = tkinter.ttk.Entry(self.frame_commit_progress_dop, textvariable=self.vr_task_id)
         ntr_task_id.pack(expand=True, fill="none", padx=10, pady=10)
+
         lbl_percent.pack(expand=True, fill="none", padx=10, pady=10)
         spn_percent = tkinter.Spinbox(self.frame_commit_progress_dop, textvariable=self.vr_percent, from_=0, \
                                                       to=100, increment=1, exportselection=0)
         spn_percent.pack(expand=True, fill="none", padx=10, pady=10)
+
         lbl_description.pack(expand=True, fill="none", padx=10, pady=10)
         self.txt_description = tkinter.Text(self.frame_commit_progress_dop, wrap='word', height=10, width=40)
         self.txt_description.pack(expand=True, fill="both", padx=10, pady=10) 
@@ -501,9 +503,11 @@ class Application(tkinter.ttk.Frame):
         lbl_user_name.pack(expand=True, fill="none", padx=10, pady=10)
         ntr_user_name = tkinter.ttk.Entry(self.frame_add_employees_dop, textvariable=self.vr_user_name)
         ntr_user_name.pack(expand=True, fill="none", padx=10, pady=10)
+
         lbl_user_password.pack(expand=True, fill="none", padx=10, pady=10)
         ntr_user_password = tkinter.ttk.Entry(self.frame_add_employees_dop, textvariable=self.vr_user_password)
         ntr_user_password.pack(expand=True, fill="none", padx=10, pady=10)
+
         lbl_user_type.pack(expand=True, fill="none", padx=10, pady=10)
         self.lst_user_type = tkinter.Listbox(self.frame_add_employees_dop, width=3, height=2, exportselection=0, \
                 activestyle='dotbox')
@@ -544,7 +548,52 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_add_task(self):
         """widgets_task."""
-        pass
+        def on_enter_press(event):
+            self.txt_task_description.insert(tkinter.END, '\n')
+            self.txt_task_description.see(tkinter.END)
+
+        lbl_task_name = tkinter.ttk.Label(self.frame_add_task_dop, text=_('Task Name'), font=('Arial', 16))
+        lbl_task_supervisor = tkinter.ttk.Label(self.frame_add_task_dop, text=_('Task Supervisor'), font=('Arial', 16))
+        lbl_task_workers = tkinter.ttk.Label(self.frame_add_task_dop, text=_('Task Workers'), font=('Arial', 16))
+        lbl_task_description = tkinter.ttk.Label(self.frame_add_task_dop, text=_('Description'), font=('Arial', 16))
+        lbl_task_deadline = tkinter.ttk.Label(self.frame_add_task_dop, text=_('Deadline'), font=('Arial', 16))
+
+        self.vr_task_name = tkinter.StringVar()
+        self.vr_task_supervisor = tkinter.StringVar()
+        self.vr_task_workers = tkinter.StringVar()
+        self.vr_task_workers.set(_("Enter ID separated by space"))
+        self.vr_task_deadline = tkinter.StringVar()
+
+        lbl_task_name.pack(expand=True, fill="none", padx=10, pady=10)
+        ntr_task_name = tkinter.ttk.Entry(self.frame_add_task_dop, textvariable=self.vr_task_name)
+        ntr_task_name.pack(expand=True, fill="none", padx=10, pady=10)
+
+        lbl_task_supervisor.pack(expand=True, fill="none", padx=10, pady=10)
+        ntr_task_supervisor = tkinter.ttk.Entry(self.frame_add_task_dop, textvariable=self.vr_task_supervisor)
+        ntr_task_supervisor.pack(expand=True, fill="none", padx=10, pady=10)
+
+        lbl_task_workers.pack(expand=True, fill="none", padx=10, pady=10)
+        ntr_task_workers = tkinter.ttk.Entry(self.frame_add_task_dop, textvariable=self.vr_task_workers)
+        ntr_task_workers.pack(expand=True, fill="none", padx=10, pady=10)
+
+        lbl_task_description.pack(expand=True, fill="none", padx=10, pady=10)
+        self.txt_task_description = tkinter.Text(self.frame_add_task_dop, wrap='word', height=10, width=40)
+        self.txt_task_description.pack(expand=True, fill="both", padx=10, pady=10) 
+        self.txt_task_description.bind('<Return>', on_enter_press)
+
+        lbl_task_deadline.pack(expand=True, fill="none", padx=10, pady=10)
+        ntr_task_deadline = tkinter.ttk.Entry(self.frame_add_task_dop, textvariable=self.vr_task_deadline)
+        ntr_task_deadline.pack(expand=True, fill="none", padx=10, pady=10)
+
+        btn_add_task = tkinter.ttk.Button(self.frame_add_task_dop, text=_("Add Task"), \
+                command=self.add_task_db)
+        btn_add_task.pack(expand=True, fill="none", padx=10, pady=10)
+
+    def add_task_db(self):
+        """TODO: занести в базу данных всю информацию о новой задаче, проверить корректность введенных данных"""
+        # после этого выполняется следующий блок код
+
+        self.update_foo()
 
     def widgets_del_task(self):
         """widgets_task."""
