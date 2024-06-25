@@ -548,7 +548,23 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_del_task(self):
         """widgets_task."""
-        pass
+        lbl_task_id = tkinter.ttk.Label(self.frame_del_task_dop, text=_('Task ID'), font=('Arial', 16))
+
+        self.vr_task_id = tkinter.StringVar()
+
+        lbl_task_id.pack(expand=True, fill="none", padx=10, pady=10)
+        ntr_task_id = tkinter.ttk.Entry(self.frame_del_task_dop, textvariable=self.vr_task_id)
+        ntr_task_id.pack(expand=True, fill="none", padx=10, pady=10)
+
+        btn_del_task = tkinter.ttk.Button(self.frame_del_task_dop, text=_("Delete Task"), \
+                command=self.del_task_db)
+        btn_del_task.pack(expand=True, fill="none", padx=10, pady=10)
+
+    def del_task_db(self):
+        """TODO: удалить из базы данных всю информацию о задаче, проверить корректность введенных данных"""
+        # после этого выполняется следующий блок код
+
+        self.update_foo()
 
 
 """ TODO: авторизация, проверка user_name, user_password
