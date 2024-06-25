@@ -53,11 +53,11 @@ def task_test():
 def task_html():
     """Make HTML documentationi."""
     return {
-            'actions': ['sphinx-build -M html ./docs/source ./mood/docs/build'],
-            'file_dep': glob.glob('docs/source/*.rst') + glob.glob('mood/*/*.py'),
-            'targets': ['mood/docs/build'],
+            'actions': ['sphinx-build -M html ./docs/source ./TaskTracker/docs/build'],
+            'file_dep': glob.glob('docs/source/*.rst') + glob.glob('TaskTracker/*.py'),
+            'targets': ['TaskTracker/docs/build'],
             'task_dep': ['i18n'],
-            'clean': [(shutil.rmtree, ["mood/docs/build"])],
+            'clean': [(shutil.rmtree, ["TaskTracker/docs/build"])],
            }
 
 
