@@ -298,9 +298,9 @@ class Application(tkinter.ttk.Frame):
         employees_info = [['228', 'Андрей Бутылкин', 'A'], ['186', 'Вячеслав Крет', 'B']]
         ''' TODO: заполнить employees_info '''
 
-        self.lbl_employees = [[tkinter.ttk.Label(self.frame_employees_dop, text=_('ID')), 
-                               tkinter.ttk.Label(self.frame_employees_dop, text=_('Name')),
-                               tkinter.ttk.Label(self.frame_employees_dop, text=_('Type'))]]
+        self.lbl_employees = [[tkinter.ttk.Label(self.frame_employees_dop, text=_('ID'), font=('Arial', 16)), 
+                               tkinter.ttk.Label(self.frame_employees_dop, text=_('Name'), font=('Arial', 16)),
+                               tkinter.ttk.Label(self.frame_employees_dop, text=_('Type'), font=('Arial', 16))]]
 
         for user in employees_info:
             self.lbl_employees.append([])
@@ -322,12 +322,12 @@ class Application(tkinter.ttk.Frame):
         task_info = [['001', 'TaskTracker', '228', ['186'], '20', '28.06.2024']]
         ''' TODO: заполнить task_info '''
         
-        self.lbl_task = [[tkinter.ttk.Label(self.frame_task_dop, text=_('ID')), 
-                               tkinter.ttk.Label(self.frame_task_dop, text=_('Project Name')),
-                               tkinter.ttk.Label(self.frame_task_dop, text=_('Supervisor')),
-                               tkinter.ttk.Label(self.frame_task_dop, text=_('Workers')), 
-                               tkinter.ttk.Label(self.frame_task_dop, text=_('Completion Percentage')),
-                               tkinter.ttk.Label(self.frame_task_dop, text=_('Deadline'))]]
+        self.lbl_task = [[tkinter.ttk.Label(self.frame_task_dop, text=_('ID'), font=('Arial', 16)), 
+                          tkinter.ttk.Label(self.frame_task_dop, text=_('Project Name'), font=('Arial', 16)),
+                          tkinter.ttk.Label(self.frame_task_dop, text=_('Supervisor'), font=('Arial', 16)),
+                          tkinter.ttk.Label(self.frame_task_dop, text=_('Workers'), font=('Arial', 16)), 
+                          tkinter.ttk.Label(self.frame_task_dop, text=_('Completion Percentage'), font=('Arial', 16)),
+                          tkinter.ttk.Label(self.frame_task_dop, text=_('Deadline'), font=('Arial', 16))]]
 
         for user in task_info:
             self.lbl_task.append([])
@@ -361,9 +361,9 @@ class Application(tkinter.ttk.Frame):
 
             self.lbl_frame_my_task[-1].pack(expand=True, fill="both", padx=14, pady=14)
             
-            lbl_my_task_i = [[tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('ID')), 
-                               tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Completion Percentage')),
-                               tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Description'))]]
+            lbl_my_task_i = [[tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('ID'), font=('Arial', 16)), 
+                    tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Completion Percentage'), font=('Arial', 16)),
+                    tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Description'), font=('Arial', 16))]]
 
             for entry in task[4]:
                 lbl_my_task_i.append([])
@@ -385,9 +385,10 @@ class Application(tkinter.ttk.Frame):
             self.txt_description.insert(tkinter.END, '\n')
             self.txt_description.see(tkinter.END)
 
-        lbl_task_id = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('ID'))
-        lbl_percent = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('Completion Percentage'))
-        lbl_description = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('Description'))
+        lbl_task_id = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('Task ID'), font=('Arial', 16))
+        lbl_percent = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('Completion Percentage'), \
+                font=('Arial', 16))
+        lbl_description = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('Description'), font=('Arial', 16))
 
         self.vr_task_id = tkinter.StringVar()
         self.vr_percent = tkinter.IntVar()
@@ -409,7 +410,7 @@ class Application(tkinter.ttk.Frame):
         btn_commit.pack(expand=True, fill="none", padx=10, pady=10)
 
     def commit_db(self):
-        "TODO: занести в базу данных всю информацию о новой записи, проверить корректность введенных данных"
+        """TODO: занести в базу данных всю информацию о новой записи, проверить корректность введенных данных"""
         # self.txt_description.get("1.0", tkinter.END)
         pass
 
