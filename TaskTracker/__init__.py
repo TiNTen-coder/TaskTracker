@@ -447,14 +447,16 @@ class Application(tkinter.ttk.Frame):
     def widgets_my_task(self):
         """widgets_my_task."""
         # print(list(scripts.all_tasks_by_worker_id(worker_id)))
-        my_task_info = list(scripts.all_tasks_by_worker_id(worker_id))
+        my_task_info = []
+        if user_type == 'A':
+            my_task_info += list(scripts.all_tasks_by_supervisor(worker_id))
+        my_task_info += list(scripts.all_tasks_by_worker_id(worker_id))
         # my_task_info = [['001', 'TaskTracker', '20', '28.06.2024', "Description: need to close the 3rd course", \
         #                 [['228', '10', 'labudabdab'], ['186', '20', 'a']]]]
         ''' TODO: заполнить my_task_info '''
-
         self.lbl_frame_my_task = []
 
-        for task in my_task_info:
+        for task in sorted(my_task_info, key=lambda x: x[0]):
             style = tkinter.ttk.Style()
             style.configure('Custom.TLabelframe.Label', font=('Arial', 16))
 
@@ -546,34 +548,39 @@ class Application(tkinter.ttk.Frame):
             elif not 0 <= percent <= 100:
                 mb.showerror("Error!", "Percent is a number between 0 and 100")
             else:
-                curs.execute(f"""
-                    UPDATE task_info
-                    SET percent = {percent}
-                    WHERE task_id = {task_id};
-                    COMMIT
-                    """)
+                curs.execute("SELECT task_workers FROM task_info")
+                q = list(map(lambda x: x[0], curs.fetchall()))
+                if worker_id not in q:
+                    mb.showerror("Error!", "You cant commit progress in this project")
+                else:
+                    curs.execute(f"""
+                        UPDATE task_info
+                        SET percent = {percent}
+                        WHERE task_id = {task_id};
+                        COMMIT
+                        """)
 
-                curs.execute("SELECT entry_id FROM task_entry")
-                counter = 0
-                flag = True
-                for i in sorted(curs.fetchall()):
-                    if i[0] != counter:
+                    curs.execute("SELECT entry_id FROM task_entry")
+                    counter = 0
+                    flag = True
+                    for i in sorted(curs.fetchall()):
+                        if i[0] != counter:
+                            entry_id = counter
+                            flag = False
+                            break
+                        counter += 1
+                    if flag:
                         entry_id = counter
-                        flag = False
-                        break
-                    counter += 1
-                if flag:
-                    entry_id = counter
 
-                curs.execute(f"""
-                    INSERT INTO task_entry (entry_id,task_id,workers_id,entry_description,percent,date) VALUES
-                        ({entry_id},{task_id},{worker_id},'{descr}',{percent},'{datetime.now()}');
-                    COMMIT
-                    """)
+                    curs.execute(f"""
+                        INSERT INTO task_entry (entry_id,task_id,workers_id,entry_description,percent,date) VALUES
+                            ({entry_id},{task_id},{worker_id},'{descr}',{percent},'{datetime.now()}');
+                        COMMIT
+                        """)
 
-                # после этого выполняется следующий блок код
+                    # после этого выполняется следующий блок код
 
-                self.update_foo()
+                    self.update_foo()
 
     def widgets_add_employees(self):
         """widgets_employees."""
