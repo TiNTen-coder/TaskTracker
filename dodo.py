@@ -87,7 +87,7 @@ def task_all():
     """Perform all build task."""
     return {
             'actions': None,
-            'task_dep': ['i18n', 'check', 'html'] # TODO + [wheel']
+            'task_dep': ['i18n', 'check', 'html', 'wheel'] # TODO + [wheel']
            }
 
 
