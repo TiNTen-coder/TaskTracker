@@ -629,10 +629,30 @@ class Application(tkinter.ttk.Frame):
 
     def del_user_db(self):
         """del_user_db."""
-        """TODO: удалить из базы данных всю информацию о пользователе (и в задачах тоже(кто коммитил оставить)),
+        """TODO: удалить из базы данных всю информацию о пользователе (и в задачах тоже (кто коммитил оставить)),
         проверить корректность введенных данных"""
         vr_user_id = self.vr_user_id.get()
+        try:
+            conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
+        except:
+            print('Undefined error')
 
+        with conn.cursor() as curs:
+            curs.execute(f"""
+                SELECT user_id,user_fid FROM user_authorization
+                WHERE user_id = {vr_user_id}
+            """)
+            q = curs.fetchone()
+
+            curs.execute(f"""
+                DELETE FROM user_type
+                WHERE user_id = {q[1]}
+                """)
+
+            curs.execute(f"""
+                DELETE FROM user_authorization
+                WHERE user_id = {q[0]}
+                """)
         # после этого выполняется следующий блок код
 
         self.update_foo()
