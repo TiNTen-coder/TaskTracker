@@ -83,11 +83,7 @@ def all_tasks_script():
             # Select all rows from task_info
             curs.execute('SELECT * FROM task_info')
             # fetch all of them
-            q = curs.fetchall()
-            for i in q:
-                # Select rows which we need with rule
-                curs.execute(f"SELECT * FROM task_entry WHERE (task_id = {i[0]})")
-                yield (i, curs.fetchall())
+            return curs.fetchall()
         except:
             print('Undefined error')
 
