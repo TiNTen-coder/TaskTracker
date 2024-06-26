@@ -1,0 +1,18 @@
+[project]
+name = "TaskTracker"
+version = "0.1.0"
+dependencies = ["psycopg2", "psycopg2-binary"]
+description = "TaskTracker"
+
+[build-system]
+requires = ['setuptools']
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+TaskTracker = "TaskTracker"
+
+[tool.setuptools.package-data]
+TaskTracker = ["TaskTracker/po/*/*/*.mo", "TaskTracker/docs/*"]
+
+[project.scripts]
+TaskTracker = "TaskTracker.__init__:pre_main"
