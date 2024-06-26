@@ -39,6 +39,7 @@ def task_mo():
 
 
 def task_i18n():
+    """Do all translations"""
     return {
             'actions': None,
             'task_dep': ['pot', 'po', 'mo'],
@@ -47,7 +48,10 @@ def task_i18n():
 
 
 def task_test():
-    pass
+    """Test programm"""
+    return {
+        "actions": ["python3 -m unittest testing.py"],
+    }
 
 
 def task_html():
@@ -79,7 +83,7 @@ def task_check():
     """Perform all checks."""
     return {
             'actions': None,
-            'task_dep': ['style', 'docstyle'] # TODO: + [test']
+            'task_dep': ['style', 'docstyle', 'test']
            }
 
 
