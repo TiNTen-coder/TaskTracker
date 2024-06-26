@@ -270,8 +270,7 @@ class Application(tkinter.ttk.Frame):
         self.frame_commit_progress_dop = tkinter.ttk.Frame(self.canvas_commit_progress)
 
         self.canvas_frame_commit_progress = self.canvas_commit_progress.create_window((0, 0),
-                                                                                      window=self.frame_commit_progress_dop,
-                                                                                      anchor=tkinter.NW)
+                                        window=self.frame_commit_progress_dop, anchor=tkinter.NW)
 
         self.scrollbar_commit_progress = tkinter.ttk.Scrollbar(self.frame_commit_progress, orient='vertical', \
                                                                command=self.canvas_commit_progress.yview)
@@ -460,7 +459,7 @@ class Application(tkinter.ttk.Frame):
             style.configure('Custom.TLabelframe.Label', font=('Arial', 16))
 
             self.lbl_frame_my_task.append(tkinter.ttk.LabelFrame(self.frame_my_task_dop, text=_('task_id: {}, ' + \
-                                                                                                'task_name: {}, completion_percentage: {}, deadline: {}').format(
+                                                    'task_name: {}, completion_percentage: {}, deadline: {}').format(
                 task[0], \
                 task[1], task[2], task[3]), labelanchor='n', style="Custom.TLabelframe"))
 
