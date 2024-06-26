@@ -3,9 +3,12 @@ import psycopg2
 
 # from pprint import pprint
 
-
-
 def all_tasks_by_worker_id(worker_id: int):
+    """all_tasks_by_worker_id.
+
+    :param worker_id:
+    :type worker_id: int
+    """
     try:
         conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
     except:
@@ -37,6 +40,7 @@ def all_tasks_by_worker_id(worker_id: int):
 
 
 def workers_and_types_script():
+    """workers_and_types_script."""
     try:
         conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
     except:
@@ -61,12 +65,10 @@ def workers_and_types_script():
             qwe = curs.fetchall()
             if qwe:
                 yield [i[0], list(*qwe)[1], i[1]]
-            # yield single_row
-        """except:
-            print('Undefined error 2')"""
 
 
 def all_tasks_script():
+    """all_tasks_script."""
     try:
         conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
     except:
