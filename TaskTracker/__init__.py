@@ -269,8 +269,7 @@ class Application(tkinter.ttk.Frame):
         self.frame_commit_progress_dop = tkinter.ttk.Frame(self.canvas_commit_progress)
 
         self.canvas_frame_commit_progress = self.canvas_commit_progress.create_window((0, 0),
-                                                                                      window=self.frame_commit_progress_dop,
-                                                                                      anchor=tkinter.NW)
+                                        window=self.frame_commit_progress_dop, anchor=tkinter.NW)
 
         self.scrollbar_commit_progress = tkinter.ttk.Scrollbar(self.frame_commit_progress, orient='vertical', \
                                                                command=self.canvas_commit_progress.yview)
@@ -459,7 +458,7 @@ class Application(tkinter.ttk.Frame):
             style.configure('Custom.TLabelframe.Label', font=('Arial', 16))
 
             self.lbl_frame_my_task.append(tkinter.ttk.LabelFrame(self.frame_my_task_dop, text=_('task_id: {}, ' + \
-                                                                                                'task_name: {}, completion_percentage: {}, deadline: {}').format(
+                                                    'task_name: {}, completion_percentage: {}, deadline: {}').format(
                 task[0], \
                 task[1], task[2], task[3]), labelanchor='n', style="Custom.TLabelframe"))
 
@@ -538,8 +537,8 @@ class Application(tkinter.ttk.Frame):
         else:
             try:
                 conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
-            except:
-                print('Undefined error')
+            except Exception as e:
+                print(f'Undefined error {e}')
 
             with conn.cursor() as curs:
                 curs.execute(f"""
@@ -563,7 +562,7 @@ class Application(tkinter.ttk.Frame):
                     entry_id = counter
 
                 curs.execute(f"""
-                    INSERT INTO task_entry (entry_id,task_id,workers_id,entry_description,percent,date) VALUES 
+                    INSERT INTO task_entry (entry_id,task_id,workers_id,entry_description,percent,date) VALUES
                         ({entry_id},{task_id},{worker_id},'{descr}',{percent},'{datetime.now()}');
                     COMMIT
                     """)
@@ -608,8 +607,8 @@ class Application(tkinter.ttk.Frame):
         lst_user_type = 'AB'[self.lst_user_type.curselection()[0]]
         try:
             conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
-        except:
-            print('Undefined error')
+        except Exception as e:
+            print(f'Undefined error {e}')
 
         with conn.cursor() as curs:
             curs.execute("SELECT user_id FROM user_type")
@@ -672,8 +671,8 @@ class Application(tkinter.ttk.Frame):
         vr_user_id = self.vr_user_id.get()
         try:
             conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
-        except:
-            print('Undefined error')
+        except Exception as e:
+            print(f'Undefined error {e}')
 
         with conn.cursor() as curs:
             curs.execute(f"""
@@ -694,11 +693,11 @@ class Application(tkinter.ttk.Frame):
                 """)
         try:
             conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
-        except:
-            print('Undefined error')
+        except Exception as e:
+            print(f'Undefined error {e}')
 
         with conn.cursor() as curs:
-            curs.execute(f"""
+            curs.execute("""
                 SELECT task_id,task_workers FROM task_info
                 """)
             w = curs.fetchall()
@@ -776,8 +775,8 @@ class Application(tkinter.ttk.Frame):
         vr_task_descr = self.txt_task_description.get('1.0', tkinter.END)
         try:
             conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
-        except:
-            print('Undefined error')
+        except Exception as e:
+            print(f'Undefined error {e}')
 
         with conn.cursor() as curs:
             curs.execute("SELECT task_id FROM task_info")
@@ -792,9 +791,9 @@ class Application(tkinter.ttk.Frame):
             if flag:
                 vr_task_id = counter
             curs.execute(f"""
-                INSERT INTO task_info (task_id,task_name,task_supervisor,task_workers,percent,deadline,description) VALUES
-                    ({vr_task_id},'{vr_task_name}',{vr_task_supervisor},ARRAY{vr_task_workers},0,'{year}-{month}-{day}',
-                    '{vr_task_descr}');
+                INSERT INTO task_info (task_id,task_name,task_supervisor,task_workers,percent,deadline,description)
+                VALUES ({vr_task_id},'{vr_task_name}',{vr_task_supervisor},ARRAY{vr_task_workers},0,
+                '{year}-{month}-{day}','{vr_task_descr}');
                 COMMIT
                 """)
 
@@ -823,8 +822,8 @@ class Application(tkinter.ttk.Frame):
         vr_del_task_id = self.vr_del_task_id.get()
         try:
             conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
-        except:
-            print('Undefined error')
+        except Exception as e:
+            print(f'Undefined error {e}')
 
         with conn.cursor() as curs:
             curs.execute(f"""
@@ -845,10 +844,10 @@ class Application(tkinter.ttk.Frame):
 
 
 def pre_main():
-    global user_type, worker_id
     """pre_main."""
     """ TODO: авторизация, проверка user_name, user_password
     и добавление в user_type его тип 'B' -- zavod, 'A' иначе """
+    global user_type, worker_id
 
     if len(sys.argv) != 1 and len(sys.argv) != 3:
         print('Incorrect positional arguments')
@@ -862,8 +861,8 @@ def pre_main():
             password = sys.argv[2]
         try:
             conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
-        except:
-            print('Undefined error')
+        except Exception as e:
+            print(f'Undefined error {e}')
 
         with conn.cursor() as curs:
             curs.execute(f"""

@@ -1,3 +1,4 @@
+"""Scripts."""
 import psycopg2
 
 
@@ -11,17 +12,19 @@ def all_tasks_by_worker_id(worker_id: int):
     """
     try:
         conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
-    except:
-        print('Undefined error 1')
+    except Exception as e:
+        print(f'Undefined error {e}')
 
     with conn.cursor() as curs:
         # try:
         # Test fill
         """
         for i in range(ord('A'), ord('Z') + 1):
-            curs.execute(f"INSERT INTO task_info (task_id,task_name,task_supervisor,task_workers,percent) VALUES ({i - ord('A')},'{chr(i)}',1,ARRAY[1, 2, 3],10)")
+            curs.execute(f"INSERT INTO task_info (task_id,task_name,task_supervisor,task_workers,percent) VALUES
+            ({i - ord('A')},'{chr(i)}',1,ARRAY[1, 2, 3],10)")
         for i in range(ord('A'), ord('Z') + 1):
-            curs.execute(f"INSERT INTO task_entry (entry_id,task_id,workers_id,entry_description,percent,date) VALUES ({i - ord('A')},'{i - ord('A')}',{(i - ord('A')) % 3},'ROFLS',10,'2024-02-02')")
+            curs.execute(f"INSERT INTO task_entry (entry_id,task_id,workers_id,entry_description,percent,date)
+             VALUES ({i - ord('A')},'{i - ord('A')}',{(i - ord('A')) % 3},'ROFLS',10,'2024-02-02')")
         """
         # Select all rows from task_info
         curs.execute('SELECT * FROM task_info')
@@ -43,8 +46,8 @@ def workers_and_types_script():
     """workers_and_types_script."""
     try:
         conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
-    except:
-        print('Undefined error 1')
+    except Exception as e:
+        print(f'Undefined error {e}')
 
     with conn.cursor() as curs:
         # try:
@@ -54,7 +57,8 @@ def workers_and_types_script():
             curs.execute(f"INSERT INTO user_type (user_id,user_type) VALUES ({i - ord('A')},'{chr(i)}')")
         for i in range(ord('A'), ord('Z') + 1):
             curs.execute(
-                f"INSERT INTO user_authorization (user_id,user_fid,user_name,user_password) VALUES ({i - ord('A')},{i - ord('A')},'{chr(i)}','{chr(i)}')")
+                f"INSERT INTO user_authorization (user_id,user_fid,user_name,user_password) VALUES
+                 ({i - ord('A')},{i - ord('A')},'{chr(i)}','{chr(i)}')")
         """
         # Select all rows from user_type
         curs.execute('SELECT * FROM user_type')
@@ -71,18 +75,20 @@ def all_tasks_script():
     """all_tasks_script."""
     try:
         conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
-    except:
-        print('Undefined error')
+    except Exception as e:
+        print(f'Undefined error {e}')
 
     with conn.cursor() as curs:
         # Test fill
         """
         for i in range(ord('A'), ord('Z') + 1):
             curs.execute(
-                f"INSERT INTO task_info (task_id,task_name,task_supervisor,task_workers,percent) VALUES ({i - ord('A')},'{chr(i)}',1,ARRAY[1, 2, 3],10)")
+                f"INSERT INTO task_info (task_id,task_name,task_supervisor,task_workers,percent) VALUES
+                 ({i - ord('A')},'{chr(i)}',1,ARRAY[1, 2, 3],10)")
         for i in range(ord('A'), ord('Z') + 1):
             curs.execute(
-                f"INSERT INTO task_entry (entry_id,task_id,workers_id,entry_description,percent,date) VALUES ({i - ord('A')},'{i - ord('A')}',{(i - ord('A')) % 3},'ROFLS',10,'2024-02-02')")
+                f"INSERT INTO task_entry (entry_id,task_id,workers_id,entry_description,percent,date) VALUES
+                 ({i - ord('A')},'{i - ord('A')}',{(i - ord('A')) % 3},'ROFLS',10,'2024-02-02')")
         """
         # Select all rows from task_info
         curs.execute('SELECT * FROM task_info')
