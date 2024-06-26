@@ -526,7 +526,6 @@ class Application(tkinter.ttk.Frame):
 
         self.vr_user_name = tkinter.StringVar()
         self.vr_user_password = tkinter.StringVar()
-        self.vr_user_type = tkinter.StringVar()
 
         lbl_user_name.pack(expand=True, fill="none", padx=10, pady=10)
         ntr_user_name = tkinter.ttk.Entry(self.frame_add_employees_dop, textvariable=self.vr_user_name)
@@ -634,10 +633,10 @@ class Application(tkinter.ttk.Frame):
         """widgets_task."""
         lbl_task_id = tkinter.ttk.Label(self.frame_del_task_dop, text=_('Task ID'), font=('Arial', 16))
 
-        self.vr_task_id = tkinter.StringVar()
+        self.vr_del_task_id = tkinter.StringVar()
 
         lbl_task_id.pack(expand=True, fill="none", padx=10, pady=10)
-        ntr_task_id = tkinter.ttk.Entry(self.frame_del_task_dop, textvariable=self.vr_task_id)
+        ntr_task_id = tkinter.ttk.Entry(self.frame_del_task_dop, textvariable=self.vr_del_task_id)
         ntr_task_id.pack(expand=True, fill="none", padx=10, pady=10)
 
         btn_del_task = tkinter.ttk.Button(self.frame_del_task_dop, text=_("Delete Task"), \
