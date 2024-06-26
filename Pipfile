@@ -13,6 +13,7 @@ pydocstyle = "*"
 babel = "*"
 doit = "*"
 sphinx = "*"
+build = "*"
 
 [requires]
 python_version = "3.12"
