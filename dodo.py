@@ -64,14 +64,14 @@ def task_html():
 def task_style():
     """Check style against flake8."""
     return {
-            'actions': ['flake8 TaskTracker/__init__.py', 'flake8 TaskTracker/__main__.py']
+            'actions': ['flake8 TaskTracker/scripts.py', 'flake8 TaskTracker/__main__.py']
            }
 
 
 def task_docstyle():
     """Check docstrings against pydocstyle."""
     return {
-            'actions': ['pydocstyle TaskTracker/__init__.py', 'pydocstyle TaskTracker/__main__.py']
+            'actions': ['pydocstyle TaskTracker/scripts.py', 'pydocstyle TaskTracker/__main__.py']
            }
 
 

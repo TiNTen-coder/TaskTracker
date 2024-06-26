@@ -4,13 +4,12 @@ import tkinter.ttk
 import os
 import gettext
 import locale
-
+from . import scripts
+import psycopg2
 
 user_type = 'A'
 
-
 _podir = os.path.join('/'.join(os.path.dirname(__file__).split('/')), "po")
-
 
 TRANSLATIONS = {
     ("ru_RU", "UTF-8"): gettext.translation("msg", _podir, ["ru_RU.UTF-8"]),
@@ -209,10 +208,11 @@ class Application(tkinter.ttk.Frame):
         self.frame_employees_dop = tkinter.ttk.Frame(self.canvas_employees)
 
         self.canvas_frame_employees = self.canvas_employees.create_window((0, 0), \
-                window=self.frame_employees_dop, anchor=tkinter.NW)
+                                                                          window=self.frame_employees_dop,
+                                                                          anchor=tkinter.NW)
 
         self.scrollbar_employees = tkinter.ttk.Scrollbar(self.frame_employees, orient='vertical', \
-                command=self.canvas_employees.yview)
+                                                         command=self.canvas_employees.yview)
         self.scrollbar_employees.pack(side='right', fill='y')
 
         self.canvas_employees.config(yscrollcommand=self.scrollbar_employees.set)
@@ -228,10 +228,10 @@ class Application(tkinter.ttk.Frame):
         self.frame_task_dop = tkinter.ttk.Frame(self.canvas_task)
 
         self.canvas_frame_task = self.canvas_task.create_window((0, 0), \
-                window=self.frame_task_dop, anchor=tkinter.NW)
+                                                                window=self.frame_task_dop, anchor=tkinter.NW)
 
         self.scrollbar_task = tkinter.ttk.Scrollbar(self.frame_task, orient='vertical', \
-                command=self.canvas_task.yview)
+                                                    command=self.canvas_task.yview)
         self.scrollbar_task.pack(side='right', fill='y')
 
         self.canvas_task.config(yscrollcommand=self.scrollbar_task.set)
@@ -247,10 +247,10 @@ class Application(tkinter.ttk.Frame):
         self.frame_my_task_dop = tkinter.ttk.Frame(self.canvas_my_task)
 
         self.canvas_frame_my_task = self.canvas_my_task.create_window((0, 0), \
-                window=self.frame_my_task_dop, anchor=tkinter.NW)
+                                                                      window=self.frame_my_task_dop, anchor=tkinter.NW)
 
         self.scrollbar_my_task = tkinter.ttk.Scrollbar(self.frame_my_task, orient='vertical', \
-                command=self.canvas_my_task.yview)
+                                                       command=self.canvas_my_task.yview)
         self.scrollbar_my_task.pack(side='right', fill='y')
 
         self.canvas_my_task.config(yscrollcommand=self.scrollbar_my_task.set)
@@ -265,11 +265,12 @@ class Application(tkinter.ttk.Frame):
 
         self.frame_commit_progress_dop = tkinter.ttk.Frame(self.canvas_commit_progress)
 
-        self.canvas_frame_commit_progress = self.canvas_commit_progress.create_window((0, 0), \
-                window=self.frame_commit_progress_dop, anchor=tkinter.NW)
+        self.canvas_frame_commit_progress = self.canvas_commit_progress.create_window((0, 0),
+                                                                                      window=self.frame_commit_progress_dop,
+                                                                                      anchor=tkinter.NW)
 
         self.scrollbar_commit_progress = tkinter.ttk.Scrollbar(self.frame_commit_progress, orient='vertical', \
-                command=self.canvas_commit_progress.yview)
+                                                               command=self.canvas_commit_progress.yview)
         self.scrollbar_commit_progress.pack(side='right', fill='y')
 
         self.canvas_commit_progress.config(yscrollcommand=self.scrollbar_commit_progress.set)
@@ -307,10 +308,11 @@ class Application(tkinter.ttk.Frame):
         self.frame_add_employees_dop = tkinter.ttk.Frame(self.canvas_add_employees)
 
         self.canvas_frame_add_employees = self.canvas_add_employees.create_window((0, 0), \
-                window=self.frame_add_employees_dop, anchor=tkinter.NW)
+                                                                                  window=self.frame_add_employees_dop,
+                                                                                  anchor=tkinter.NW)
 
         self.scrollbar_add_employees = tkinter.ttk.Scrollbar(self.frame_add_employees, orient='vertical', \
-                command=self.canvas_add_employees.yview)
+                                                             command=self.canvas_add_employees.yview)
         self.scrollbar_add_employees.pack(side='right', fill='y')
 
         self.canvas_add_employees.config(yscrollcommand=self.scrollbar_add_employees.set)
@@ -326,10 +328,11 @@ class Application(tkinter.ttk.Frame):
         self.frame_del_employees_dop = tkinter.ttk.Frame(self.canvas_del_employees)
 
         self.canvas_frame_del_employees = self.canvas_del_employees.create_window((0, 0), \
-                window=self.frame_del_employees_dop, anchor=tkinter.NW)
+                                                                                  window=self.frame_del_employees_dop,
+                                                                                  anchor=tkinter.NW)
 
         self.scrollbar_del_employees = tkinter.ttk.Scrollbar(self.frame_del_employees, orient='vertical', \
-                command=self.canvas_del_employees.yview)
+                                                             command=self.canvas_del_employees.yview)
         self.scrollbar_del_employees.pack(side='right', fill='y')
 
         self.canvas_del_employees.config(yscrollcommand=self.scrollbar_del_employees.set)
@@ -345,10 +348,11 @@ class Application(tkinter.ttk.Frame):
         self.frame_add_task_dop = tkinter.ttk.Frame(self.canvas_add_task)
 
         self.canvas_frame_add_task = self.canvas_add_task.create_window((0, 0), \
-                window=self.frame_add_task_dop, anchor=tkinter.NW)
+                                                                        window=self.frame_add_task_dop,
+                                                                        anchor=tkinter.NW)
 
         self.scrollbar_add_task = tkinter.ttk.Scrollbar(self.frame_add_task, orient='vertical', \
-                command=self.canvas_add_task.yview)
+                                                        command=self.canvas_add_task.yview)
         self.scrollbar_add_task.pack(side='right', fill='y')
 
         self.canvas_add_task.config(yscrollcommand=self.scrollbar_add_task.set)
@@ -364,10 +368,11 @@ class Application(tkinter.ttk.Frame):
         self.frame_del_task_dop = tkinter.ttk.Frame(self.canvas_del_task)
 
         self.canvas_frame_del_task = self.canvas_del_task.create_window((0, 0), \
-                window=self.frame_del_task_dop, anchor=tkinter.NW)
+                                                                        window=self.frame_del_task_dop,
+                                                                        anchor=tkinter.NW)
 
         self.scrollbar_del_task = tkinter.ttk.Scrollbar(self.frame_del_task, orient='vertical', \
-                command=self.canvas_del_task.yview)
+                                                        command=self.canvas_del_task.yview)
         self.scrollbar_del_task.pack(side='right', fill='y')
 
         self.canvas_del_task.config(yscrollcommand=self.scrollbar_del_task.set)
@@ -385,7 +390,8 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_employees(self):
         """widgets_employees."""
-        employees_info = [['228', 'Андрей Бутылкин', 'A'], ['186', 'Вячеслав Крет', 'B']]
+        employees_info = list(scripts.workers_and_types_script())
+        #employees_info = [['228', 'Андрей Бутылкин', 'A'], ['186', 'Вячеслав Крет', 'B']]
         ''' TODO: заполнить employees_info '''
 
         self.lbl_employees = [[tkinter.ttk.Label(self.frame_employees_dop, text=_('ID'), font=('Arial', 16)),
@@ -437,7 +443,7 @@ class Application(tkinter.ttk.Frame):
     def widgets_my_task(self):
         """widgets_my_task."""
         my_task_info = [['001', 'TaskTracker', '20', '28.06.2024', "Description: need to close the 3rd course", \
-                [['228', '10', 'labudabdab'], ['186', '20', 'a']]]]
+                         [['228', '10', 'labudabdab'], ['186', '20', 'a']]]]
         ''' TODO: заполнить my_task_info '''
 
         self.lbl_frame_my_task = []
@@ -446,9 +452,10 @@ class Application(tkinter.ttk.Frame):
             style = tkinter.ttk.Style()
             style.configure('Custom.TLabelframe.Label', font=('Arial', 16))
 
-            self.lbl_frame_my_task.append(tkinter.ttk.LabelFrame(self.frame_my_task_dop, text=_('task_id: {}, ' +\
-                                          'task_name: {}, completion_percentage: {}, deadline: {}').format(task[0], \
-                                          task[1], task[2], task[3]), labelanchor='n', style="Custom.TLabelframe"))
+            self.lbl_frame_my_task.append(tkinter.ttk.LabelFrame(self.frame_my_task_dop, text=_('task_id: {}, ' + \
+                                                                                                'task_name: {}, completion_percentage: {}, deadline: {}').format(
+                task[0], \
+                task[1], task[2], task[3]), labelanchor='n', style="Custom.TLabelframe"))
 
             self.lbl_frame_my_task[-1].pack(expand=True, fill="both", padx=14, pady=14)
 
@@ -459,8 +466,9 @@ class Application(tkinter.ttk.Frame):
             lbl_my_task_description.grid(row=0, columnspan=3, padx=4, pady=4)
 
             lbl_my_task_i = [[tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('ID'), font=('Arial', 16)),
-                    tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Completion Percentage'), font=('Arial', 16)),
-                    tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Description'), font=('Arial', 16))]]
+                              tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Completion Percentage'),
+                                                font=('Arial', 16)),
+                              tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=_('Description'), font=('Arial', 16))]]
 
             for entry in task[5]:
                 lbl_my_task_i.append([])
@@ -469,13 +477,14 @@ class Application(tkinter.ttk.Frame):
                     lbl_my_task_i[-1].append(tkinter.ttk.Label(self.lbl_frame_my_task[-1], text=info))
 
             for i in range(len(lbl_my_task_i)):
-                self.lbl_frame_my_task[-1].grid_rowconfigure(i+1, weight=1)
+                self.lbl_frame_my_task[-1].grid_rowconfigure(i + 1, weight=1)
 
                 for j in range(3):
-                    lbl_my_task_i[i][j].grid(row=i+1, column=j, padx=4, pady=4)
+                    lbl_my_task_i[i][j].grid(row=i + 1, column=j, padx=4, pady=4)
 
     def widgets_commit_progress(self):
         """widgets_commit_progress."""
+
         def on_enter_press(event):
             """on_enter_press.
 
@@ -486,7 +495,7 @@ class Application(tkinter.ttk.Frame):
 
         lbl_task_id = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('Task ID'), font=('Arial', 16))
         lbl_percent = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('Completion Percentage'), \
-                font=('Arial', 16))
+                                        font=('Arial', 16))
         lbl_description = tkinter.ttk.Label(self.frame_commit_progress_dop, text=_('Description'), font=('Arial', 16))
 
         self.vr_task_id = tkinter.StringVar()
@@ -514,9 +523,36 @@ class Application(tkinter.ttk.Frame):
         """commit_db."""
         """TODO: занести в базу данных всю информацию о новой записи, проверить корректность введенных данных"""
         # self.txt_description.get("1.0", tkinter.END)
-        # после этого выполняется следующий блок код
+        task_id = self.vr_task_id.get()
+        percent = self.vr_percent.get()
+        # print(self.txt_task_description.get('1.0'))
+        descr = self.txt_description.get("1.0", tkinter.END)
+        if not task_id.isnumeric() or not isinstance(percent, int):
+            print('пупупу')
+        else:
+            try:
+                conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
+            except:
+                print('Undefined error')
 
-        self.update_foo()
+            with conn.cursor() as curs:
+                curs.execute(f"""
+                    UPDATE task_info
+                    SET percent = {percent}
+                    WHERE task_id = {task_id}
+                    """)
+
+            with conn.cursor() as curs:
+                curs.execute(f"""
+                    UPDATE task_entry
+                    SET percent = {percent},
+                        task_entry = {descr}
+                    WHERE task_id = {task_id}
+                    """)
+
+            # после этого выполняется следующий блок код
+
+            self.update_foo()
 
     def widgets_add_employees(self):
         """widgets_employees."""
@@ -537,18 +573,42 @@ class Application(tkinter.ttk.Frame):
 
         lbl_user_type.pack(expand=True, fill="none", padx=10, pady=10)
         self.lst_user_type = tkinter.Listbox(self.frame_add_employees_dop, width=3, height=2, exportselection=0, \
-                activestyle='dotbox')
+                                             activestyle='dotbox')
         self.lst_user_type.insert(tkinter.END, 'A')
         self.lst_user_type.insert(tkinter.END, 'B')
         self.lst_user_type.pack(expand=True, fill="none", padx=10, pady=10)
 
         btn_add_user = tkinter.ttk.Button(self.frame_add_employees_dop, text=_("Add Employee"), \
-                command=self.add_user_db)
+                                          command=self.add_user_db)
         btn_add_user.pack(expand=True, fill="none", padx=10, pady=10)
 
     def add_user_db(self):
         """add_user_db."""
         """TODO: занести в базу данных всю информацию о новом работяге, проверить корректность введенных данных"""
+        vr_user_name = self.vr_user_name.get()
+        vr_user_password = self.vr_user_password.get()
+        lst_user_type = 'AB'[self.lst_user_type.curselection()[0]]
+        try:
+            conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
+        except:
+            print('Undefined error')
+
+        with conn.cursor() as curs:
+            curs.execute("SELECT * FROM user_authorization")
+            vr_user_id = len(curs.fetchall())
+            curs.execute("SELECT * FROM user_type")
+            vr_user_fid = len(curs.fetchall())
+            curs.execute(f"""
+                INSERT INTO user_type (user_id,user_type) VALUES ({vr_user_fid},'{lst_user_type}');
+                COMMIT
+                """)
+
+            curs.execute(f"""
+                INSERT INTO user_authorization (user_id,user_fid,user_name,user_password) VALUES ({vr_user_id},
+                    {vr_user_fid},'{vr_user_name}','{vr_user_password}');
+                COMMIT
+                """)
+
         # после этого выполняется следующий блок код
 
         self.update_foo()
@@ -564,19 +624,22 @@ class Application(tkinter.ttk.Frame):
         ntr_user_id.pack(expand=True, fill="none", padx=10, pady=10)
 
         btn_del_user = tkinter.ttk.Button(self.frame_del_employees_dop, text=_("Delete Employee"), \
-                command=self.del_user_db)
+                                          command=self.del_user_db)
         btn_del_user.pack(expand=True, fill="none", padx=10, pady=10)
 
     def del_user_db(self):
         """del_user_db."""
         """TODO: удалить из базы данных всю информацию о пользователе (и в задачах тоже(кто коммитил оставить)),
         проверить корректность введенных данных"""
+        vr_user_id = self.vr_user_id.get()
+
         # после этого выполняется следующий блок код
 
         self.update_foo()
 
     def widgets_add_task(self):
         """widgets_task."""
+
         def on_enter_press(event):
             """on_enter_press.
 
@@ -619,7 +682,7 @@ class Application(tkinter.ttk.Frame):
         ntr_task_deadline.pack(expand=True, fill="none", padx=10, pady=10)
 
         btn_add_task = tkinter.ttk.Button(self.frame_add_task_dop, text=_("Add Task"), \
-                command=self.add_task_db)
+                                          command=self.add_task_db)
         btn_add_task.pack(expand=True, fill="none", padx=10, pady=10)
 
     def add_task_db(self):
@@ -640,7 +703,7 @@ class Application(tkinter.ttk.Frame):
         ntr_task_id.pack(expand=True, fill="none", padx=10, pady=10)
 
         btn_del_task = tkinter.ttk.Button(self.frame_del_task_dop, text=_("Delete Task"), \
-                command=self.del_task_db)
+                                          command=self.del_task_db)
         btn_del_task.pack(expand=True, fill="none", padx=10, pady=10)
 
     def del_task_db(self):
