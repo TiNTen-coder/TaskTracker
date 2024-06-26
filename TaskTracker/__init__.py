@@ -415,6 +415,7 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_task(self):
         """widgets_task."""
+        print(scripts.all_tasks_script())
         task_info = list(map(lambda x: list(x), scripts.all_tasks_script()))
         #task_info = [['001', 'TaskTracker', '228', ['186'], '20', '28.06.2024']]
         ''' TODO: заполнить task_info '''
@@ -777,7 +778,6 @@ class Application(tkinter.ttk.Frame):
                 counter += 1
             if flag:
                 vr_task_id = counter
-
             curs.execute(f"""
                 INSERT INTO task_info (task_id,task_name,task_supervisor,task_workers,percent,deadline,description) VALUES
                     ({vr_task_id},'{vr_task_name}',{vr_task_supervisor},ARRAY{vr_task_workers},0,'{year}-{month}-{day}',
@@ -806,6 +806,26 @@ class Application(tkinter.ttk.Frame):
     def del_task_db(self):
         """del_task_db."""
         """TODO: удалить из базы данных всю информацию о задаче, проверить корректность введенных данных"""
+
+        vr_del_task_id = self.vr_del_task_id.get()
+        try:
+            conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
+        except:
+            print('Undefined error')
+
+        with conn.cursor() as curs:
+            curs.execute(f"""
+                DELETE FROM task_entry
+                WHERE task_id = {vr_del_task_id};
+                COMMIT
+                """)
+
+            curs.execute(f"""
+                DELETE FROM task_info
+                WHERE task_id = {vr_del_task_id};
+                COMMIT
+                """)
+
         # после этого выполняется следующий блок код
 
         self.update_foo()
