@@ -6,8 +6,11 @@ import gettext
 import locale
 from . import scripts
 import psycopg2
+import sys
+from datetime import datetime
 
-user_type = 'A'
+user_type = 'B'
+worker_id = 0
 
 _podir = os.path.join('/'.join(os.path.dirname(__file__).split('/')), "po")
 
@@ -391,7 +394,7 @@ class Application(tkinter.ttk.Frame):
     def widgets_employees(self):
         """widgets_employees."""
         employees_info = sorted(list(scripts.workers_and_types_script()), key=lambda x: x[0])
-        #employees_info = [['228', 'Андрей Бутылкин', 'A'], ['186', 'Вячеслав Крет', 'B']]
+        # employees_info = [['228', 'Андрей Бутылкин', 'A'], ['186', 'Вячеслав Крет', 'B']]
         ''' TODO: заполнить employees_info '''
 
         self.lbl_employees = [[tkinter.ttk.Label(self.frame_employees_dop, text=_('ID'), font=('Arial', 16)),
@@ -415,9 +418,8 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_task(self):
         """widgets_task."""
-        print(scripts.all_tasks_script())
-        task_info = list(map(lambda x: list(x), scripts.all_tasks_script()))
-        #task_info = [['001', 'TaskTracker', '228', ['186'], '20', '28.06.2024']]
+        task_info = sorted(list(map(lambda x: list(x), scripts.all_tasks_script())), key=lambda x: x[0])
+        # task_info = [['001', 'TaskTracker', '228', ['186'], '20', '28.06.2024']]
         ''' TODO: заполнить task_info '''
 
         self.lbl_task = [[tkinter.ttk.Label(self.frame_task_dop, text=_('ID'), font=('Arial', 16)),
@@ -444,8 +446,10 @@ class Application(tkinter.ttk.Frame):
 
     def widgets_my_task(self):
         """widgets_my_task."""
-        my_task_info = [['001', 'TaskTracker', '20', '28.06.2024', "Description: need to close the 3rd course", \
-                         [['228', '10', 'labudabdab'], ['186', '20', 'a']]]]
+        # print(list(scripts.all_tasks_by_worker_id(worker_id)))
+        my_task_info = list(scripts.all_tasks_by_worker_id(worker_id))
+        # my_task_info = [['001', 'TaskTracker', '20', '28.06.2024', "Description: need to close the 3rd course", \
+        #                 [['228', '10', 'labudabdab'], ['186', '20', 'a']]]]
         ''' TODO: заполнить my_task_info '''
 
         self.lbl_frame_my_task = []
@@ -546,11 +550,21 @@ class Application(tkinter.ttk.Frame):
                     """)
 
             with conn.cursor() as curs:
+                curs.execute("SELECT entry_id FROM task_entry")
+                counter = 0
+                flag = True
+                for i in sorted(curs.fetchall()):
+                    if i[0] != counter:
+                        entry_id = counter
+                        flag = False
+                        break
+                    counter += 1
+                if flag:
+                    entry_id = counter
+
                 curs.execute(f"""
-                    UPDATE task_entry
-                    SET percent = {percent},
-                        entry_description = '{descr}'
-                    WHERE task_id = {task_id};
+                    INSERT INTO task_entry (entry_id,task_id,workers_id,entry_description,percent,date) VALUES 
+                        ({entry_id},{task_id},{worker_id},'{descr}',{percent},'{datetime.now()}');
                     COMMIT
                     """)
 
@@ -601,7 +615,7 @@ class Application(tkinter.ttk.Frame):
             curs.execute("SELECT user_id FROM user_type")
             counter = 0
             flag = True
-            for i in curs.fetchall():
+            for i in sorted(curs.fetchall()):
                 if i[0] != counter:
                     vr_user_fid = counter
                     flag = False
@@ -613,7 +627,7 @@ class Application(tkinter.ttk.Frame):
             curs.execute("SELECT user_id FROM user_authorization")
             counter = 0
             flag = True
-            for i in curs.fetchall():
+            for i in sorted(curs.fetchall()):
                 if i[0] != counter:
                     vr_user_id = counter
                     flag = False
@@ -682,7 +696,6 @@ class Application(tkinter.ttk.Frame):
             conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
         except:
             print('Undefined error')
-
 
         with conn.cursor() as curs:
             curs.execute(f"""
@@ -770,7 +783,7 @@ class Application(tkinter.ttk.Frame):
             curs.execute("SELECT task_id FROM task_info")
             counter = 0
             flag = True
-            for i in curs.fetchall():
+            for i in sorted(curs.fetchall()):
                 if i[0] != counter:
                     vr_task_id = counter
                     flag = False
@@ -832,10 +845,45 @@ class Application(tkinter.ttk.Frame):
 
 
 def pre_main():
+    global user_type, worker_id
     """pre_main."""
     """ TODO: авторизация, проверка user_name, user_password
     и добавление в user_type его тип 'B' -- zavod, 'A' иначе """
-    root = tkinter.Tk()
-    root.geometry("1280x720")
-    Application(root)
-    root.mainloop()
+
+    if len(sys.argv) != 1 and len(sys.argv) != 3:
+        print('Incorrect positional arguments')
+    else:
+        if len(sys.argv) == 1:
+            print('Using superuser mode')
+            user = 'admin'
+            password = 'admin'
+        else:
+            user = sys.argv[1]
+            password = sys.argv[2]
+        try:
+            conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
+        except:
+            print('Undefined error')
+
+        with conn.cursor() as curs:
+            curs.execute(f"""
+                SELECT * FROM user_authorization
+                WHERE user_name = '{user}'
+                """)
+            person = curs.fetchone()
+            if not person:
+                print('Unknown user')
+            else:
+                if person[3] != password:
+                    print('Incorrect password. Try again')
+                else:
+                    curs.execute(f"""
+                        SELECT * FROM user_type
+                        WHERE user_id = {person[1]}
+                        """)
+                    user_type = curs.fetchone()[1]
+                    worker_id = person[0]
+                    root = tkinter.Tk()
+                    root.geometry("1280x720")
+                    Application(root)
+                    root.mainloop()

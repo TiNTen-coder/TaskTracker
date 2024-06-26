@@ -3,20 +3,8 @@ import psycopg2
 
 # from pprint import pprint
 
-def delete():
 
-    try:
-        conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
-    except:
-        print('Undefined error')
 
-    with conn.cursor() as curs:
-        for i in range(4):
-            curs.execute(f"""
-                DELETE FROM task_info
-                WHERE task_id = {i};
-                COMMIT
-                """)
 def all_tasks_by_worker_id(worker_id: int):
     try:
         conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
@@ -36,14 +24,16 @@ def all_tasks_by_worker_id(worker_id: int):
         curs.execute('SELECT * FROM task_info')
         # fetch all of them
         q = curs.fetchall()
+        ans = []
         for i in q:
-            # Select rows which we need with rule
-            curs.execute(f"SELECT * FROM task_entry WHERE (task_id = {i[0]} AND workers_id = {worker_id})")
-            qwe = curs.fetchall()
-            if qwe:
-                yield (i, qwe)
-        """except:
-            print('Undefined error 2')"""
+            if worker_id in i[3]:
+                ans.append([i[0], i[1], i[4], i[5], f'Description: {i[6][:-1]}'])
+                curs.execute(f"""
+                    SELECT workers_id,percent,entry_description FROM task_entry
+                    WHERE task_id = {i[0]}
+                    """)
+                ans[-1].append(list(curs.fetchall()))
+        return ans
 
 
 def workers_and_types_script():
@@ -96,9 +86,8 @@ def all_tasks_script():
         curs.execute('SELECT * FROM task_info')
         # fetch all of them
         return curs.fetchall()
-        #return curs.fetchall()
+        # return curs.fetchall()
 
-#delete()
 # pprint(list(all_tasks_by_worker_id(0)))
 # pprint(list(all_tasks_script()))
 # print(list(workers_and_types_script()))
