@@ -19,124 +19,124 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
 
-#: TaskTracker/__init__.py:174
+#: TaskTracker/__init__.py:175
 msgid "Update Info"
 msgstr "Обновить Информацию"
 
-#: TaskTracker/__init__.py:175
+#: TaskTracker/__init__.py:176
 msgid "Quit"
 msgstr "Выйти"
 
-#: TaskTracker/__init__.py:177
+#: TaskTracker/__init__.py:178
 msgid "Settings"
 msgstr "Настройки"
 
-#: TaskTracker/__init__.py:184
+#: TaskTracker/__init__.py:185
 msgid "Language"
 msgstr "Язык"
 
-#: TaskTracker/__init__.py:199
+#: TaskTracker/__init__.py:200
 msgid "Employees"
 msgstr "Сотрудники"
 
-#: TaskTracker/__init__.py:200
+#: TaskTracker/__init__.py:201
 msgid "Tasks"
 msgstr "Задачи"
 
-#: TaskTracker/__init__.py:201
+#: TaskTracker/__init__.py:202
 msgid "My Tasks"
 msgstr "Мои Задачи"
 
-#: TaskTracker/__init__.py:202
+#: TaskTracker/__init__.py:203
 msgid "Commit Progress"
 msgstr "Зафиксировать прогресс"
 
-#: TaskTracker/__init__.py:297 TaskTracker/__init__.py:546
+#: TaskTracker/__init__.py:298 TaskTracker/__init__.py:550
 msgid "Add Employee"
 msgstr "Добавить Сотрудника"
 
-#: TaskTracker/__init__.py:298 TaskTracker/__init__.py:567
+#: TaskTracker/__init__.py:299 TaskTracker/__init__.py:571
 msgid "Delete Employee"
 msgstr "Удалить Сотрудника"
 
-#: TaskTracker/__init__.py:299 TaskTracker/__init__.py:622
+#: TaskTracker/__init__.py:300 TaskTracker/__init__.py:626
 msgid "Add Task"
 msgstr "Добавить Задачу"
 
-#: TaskTracker/__init__.py:300 TaskTracker/__init__.py:643
+#: TaskTracker/__init__.py:301 TaskTracker/__init__.py:647
 msgid "Delete Task"
 msgstr "Удалить Задачу"
 
-#: TaskTracker/__init__.py:391 TaskTracker/__init__.py:415
-#: TaskTracker/__init__.py:461
+#: TaskTracker/__init__.py:392 TaskTracker/__init__.py:416
+#: TaskTracker/__init__.py:462
 msgid "ID"
 msgstr "Идентификатор"
 
-#: TaskTracker/__init__.py:392 TaskTracker/__init__.py:523
+#: TaskTracker/__init__.py:393 TaskTracker/__init__.py:528
 msgid "Name"
 msgstr "Имя"
 
-#: TaskTracker/__init__.py:393 TaskTracker/__init__.py:525
+#: TaskTracker/__init__.py:394 TaskTracker/__init__.py:530
 msgid "Type"
 msgstr "Тип"
 
-#: TaskTracker/__init__.py:416 TaskTracker/__init__.py:589
+#: TaskTracker/__init__.py:417 TaskTracker/__init__.py:593
 msgid "Task Name"
 msgstr "Название Задачи"
 
-#: TaskTracker/__init__.py:417
+#: TaskTracker/__init__.py:418
 msgid "Supervisor"
 msgstr "Руководитель"
 
-#: TaskTracker/__init__.py:418
+#: TaskTracker/__init__.py:419
 msgid "Workers"
 msgstr "Рабочие"
 
-#: TaskTracker/__init__.py:419 TaskTracker/__init__.py:462
-#: TaskTracker/__init__.py:488
+#: TaskTracker/__init__.py:420 TaskTracker/__init__.py:463
+#: TaskTracker/__init__.py:489
 msgid "Completion Percentage"
 msgstr "Процент Выполнимости"
 
-#: TaskTracker/__init__.py:420 TaskTracker/__init__.py:593
+#: TaskTracker/__init__.py:421 TaskTracker/__init__.py:597
 msgid "Deadline"
 msgstr "Крайний срок"
 
-#: TaskTracker/__init__.py:449
+#: TaskTracker/__init__.py:450
 msgid "task_id: {}, task_name: {}, completion_percentage: {}, deadline: {}"
 msgstr ""
 "идентификатор_задачи: {}, название_задачи: {}, процент_выполнимости: {}, "
 "крайний_срок: {}"
 
-#: TaskTracker/__init__.py:463 TaskTracker/__init__.py:490
-#: TaskTracker/__init__.py:592
+#: TaskTracker/__init__.py:464 TaskTracker/__init__.py:491
+#: TaskTracker/__init__.py:596
 msgid "Description"
 msgstr "Описание"
 
-#: TaskTracker/__init__.py:487 TaskTracker/__init__.py:635
+#: TaskTracker/__init__.py:488 TaskTracker/__init__.py:639
 msgid "Task ID"
 msgstr "Идентификатор Задачи"
 
-#: TaskTracker/__init__.py:510
+#: TaskTracker/__init__.py:511
 msgid "Commit"
 msgstr "Зафиксировать"
 
-#: TaskTracker/__init__.py:524
+#: TaskTracker/__init__.py:529
 msgid "Password"
 msgstr "Пароль"
 
-#: TaskTracker/__init__.py:559
+#: TaskTracker/__init__.py:563
 msgid "Employee ID"
 msgstr "Идентификатор Сотрудника"
 
-#: TaskTracker/__init__.py:590
+#: TaskTracker/__init__.py:594
 msgid "Task Supervisor"
 msgstr "Руководитель Задачи"
 
-#: TaskTracker/__init__.py:591
+#: TaskTracker/__init__.py:595
 msgid "Task Workers"
 msgstr "Работники Задачи"
 
-#: TaskTracker/__init__.py:598
+#: TaskTracker/__init__.py:602
 msgid "Enter ID separated by space"
 msgstr "Введите идентификаторы через пробел"
 
