@@ -643,7 +643,7 @@ class Application(tkinter.ttk.Frame):
                 WHERE user_id = {vr_user_id}
             """)
             q = curs.fetchone()
-
+            print(q)
             curs.execute(f"""
                 DELETE FROM user_type
                 WHERE user_id = {q[1]}
