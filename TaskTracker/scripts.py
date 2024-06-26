@@ -4,6 +4,34 @@ import psycopg2
 
 # from pprint import pprint
 
+def all_tasks_by_supervisor(supervisor: int):
+    """all_tasks_by_supervisor.
+
+    :param supervisor:
+    :type supervisor: int
+    """
+    try:
+        conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
+    except Exception as e:
+        print(f'Undefined error {e}')
+
+    with conn.cursor() as curs:
+        # Select all rows from task_info
+        curs.execute('SELECT * FROM task_info')
+        # fetch all of them
+        q = curs.fetchall()
+        ans = []
+        for i in q:
+            if supervisor == i[2] and supervisor not in i[3]:
+                ans.append([i[0], i[1], i[4], i[5], f'Description: {i[6][:-1]}'])
+                curs.execute(f"""
+                    SELECT workers_id,percent,entry_description FROM task_entry
+                    WHERE task_id = {i[0]}
+                    """)
+                ans[-1].append(list(curs.fetchall()))
+        return ans
+
+
 def all_tasks_by_worker_id(worker_id: int):
     """all_tasks_by_worker_id.
 
