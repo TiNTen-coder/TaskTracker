@@ -3,7 +3,9 @@ CREATE TABLE "task_info" (
   "task_name" varchar(255),
   "task_supervisor" integer,
   "task_workers" integer[],
-  "percent" integer
+  "percent" integer,
+  "deadline" timestamp,
+  "description" varchar(255)
 );
 
 CREATE TABLE "task_entry" (
