@@ -1,6 +1,7 @@
 """Window."""
 import tkinter
 import tkinter.ttk
+from tkinter import messagebox as mb
 import os
 import gettext
 import locale
@@ -269,7 +270,8 @@ class Application(tkinter.ttk.Frame):
         self.frame_commit_progress_dop = tkinter.ttk.Frame(self.canvas_commit_progress)
 
         self.canvas_frame_commit_progress = self.canvas_commit_progress.create_window((0, 0),
-                                        window=self.frame_commit_progress_dop, anchor=tkinter.NW)
+                                                                                      window=self.frame_commit_progress_dop,
+                                                                                      anchor=tkinter.NW)
 
         self.scrollbar_commit_progress = tkinter.ttk.Scrollbar(self.frame_commit_progress, orient='vertical', \
                                                                command=self.canvas_commit_progress.yview)
@@ -458,7 +460,7 @@ class Application(tkinter.ttk.Frame):
             style.configure('Custom.TLabelframe.Label', font=('Arial', 16))
 
             self.lbl_frame_my_task.append(tkinter.ttk.LabelFrame(self.frame_my_task_dop, text=_('task_id: {}, ' + \
-                                                    'task_name: {}, completion_percentage: {}, deadline: {}').format(
+                                                                                                'task_name: {}, completion_percentage: {}, deadline: {}').format(
                 task[0], \
                 task[1], task[2], task[3]), labelanchor='n', style="Custom.TLabelframe"))
 
@@ -532,15 +534,19 @@ class Application(tkinter.ttk.Frame):
         percent = self.vr_percent.get()
         # print(self.txt_task_description.get('1.0'))
         descr = self.txt_description.get("1.0", tkinter.END)
-        if not task_id.isnumeric() or not isinstance(percent, int):
-            print('пупупу')
-        else:
-            try:
-                conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
-            except Exception as e:
-                print(f'Undefined error {e}')
+        try:
+            conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
+        except Exception as e:
+            print(f'Undefined error {e}')
 
-            with conn.cursor() as curs:
+        with conn.cursor() as curs:
+            curs.execute("SELECT task_id FROM task_info")
+            q = list(map(lambda x: x[0], curs.fetchall()))
+            if int(task_id) not in q:
+                mb.showerror("Error!", f"Task with ID {task_id} doesnt exist")
+            elif not 0 <= percent <= 100:
+                mb.showerror("Error!", "Percent is a number between 0 and 100")
+            else:
                 curs.execute(f"""
                     UPDATE task_info
                     SET percent = {percent}
@@ -548,7 +554,6 @@ class Application(tkinter.ttk.Frame):
                     COMMIT
                     """)
 
-            with conn.cursor() as curs:
                 curs.execute("SELECT entry_id FROM task_entry")
                 counter = 0
                 flag = True
@@ -567,9 +572,9 @@ class Application(tkinter.ttk.Frame):
                     COMMIT
                     """)
 
-            # после этого выполняется следующий блок код
+                # после этого выполняется следующий блок код
 
-            self.update_foo()
+                self.update_foo()
 
     def widgets_add_employees(self):
         """widgets_employees."""
@@ -611,44 +616,49 @@ class Application(tkinter.ttk.Frame):
             print(f'Undefined error {e}')
 
         with conn.cursor() as curs:
-            curs.execute("SELECT user_id FROM user_type")
-            counter = 0
-            flag = True
-            for i in sorted(curs.fetchall()):
-                if i[0] != counter:
+            curs.execute('SELECT user_name FROM user_authorization')
+            q = list(map(lambda x: x[0], curs.fetchall()))
+            if vr_user_name in q:
+                mb.showerror("Error!", "Name already exist!")
+            else:
+                curs.execute("SELECT user_id FROM user_type")
+                counter = 0
+                flag = True
+                for i in sorted(curs.fetchall()):
+                    if i[0] != counter:
+                        vr_user_fid = counter
+                        flag = False
+                        break
+                    counter += 1
+                if flag:
                     vr_user_fid = counter
-                    flag = False
-                    break
-                counter += 1
-            if flag:
-                vr_user_fid = counter
 
-            curs.execute("SELECT user_id FROM user_authorization")
-            counter = 0
-            flag = True
-            for i in sorted(curs.fetchall()):
-                if i[0] != counter:
+                curs.execute("SELECT user_id FROM user_authorization")
+                counter = 0
+                flag = True
+                for i in sorted(curs.fetchall()):
+                    if i[0] != counter:
+                        vr_user_id = counter
+                        flag = False
+                        break
+                    counter += 1
+                if flag:
                     vr_user_id = counter
-                    flag = False
-                    break
-                counter += 1
-            if flag:
-                vr_user_id = counter
 
-            curs.execute(f"""
-                INSERT INTO user_type (user_id,user_type) VALUES ({vr_user_fid},'{lst_user_type}');
-                COMMIT
-                """)
+                curs.execute(f"""
+                    INSERT INTO user_type (user_id,user_type) VALUES ({vr_user_fid},'{lst_user_type}');
+                    COMMIT
+                    """)
 
-            curs.execute(f"""
-                INSERT INTO user_authorization (user_id,user_fid,user_name,user_password) VALUES ({vr_user_id},
-                    {vr_user_fid},'{vr_user_name}','{vr_user_password}');
-                COMMIT
-                """)
+                curs.execute(f"""
+                    INSERT INTO user_authorization (user_id,user_fid,user_name,user_password) VALUES ({vr_user_id},
+                        {vr_user_fid},'{vr_user_name}','{vr_user_password}');
+                    COMMIT
+                    """)
 
-        # после этого выполняется следующий блок код
+                # после этого выполняется следующий блок код
 
-        self.update_foo()
+                self.update_foo()
 
     def widgets_del_employees(self):
         """widgets_employees."""
@@ -675,46 +685,52 @@ class Application(tkinter.ttk.Frame):
             print(f'Undefined error {e}')
 
         with conn.cursor() as curs:
-            curs.execute(f"""
-                SELECT user_id,user_fid FROM user_authorization
-                WHERE user_id = {vr_user_id}
-            """)
-            q = curs.fetchone()
-            curs.execute(f"""
-                DELETE FROM user_authorization
-                WHERE user_id = {q[0]};
-                COMMIT
+            curs.execute('SELECT user_id FROM user_authorization')
+            q = list(map(lambda x: x[0], curs.fetchall()))
+            if int(vr_user_id) not in q:
+                mb.showerror("Error!", f"User with ID {vr_user_id} doesnt exist")
+            else:
+                curs.execute(f"""
+                    SELECT user_id,user_fid FROM user_authorization
+                    WHERE user_id = {vr_user_id}
                 """)
+                q = curs.fetchone()
+                curs.execute(f"""
+                    DELETE FROM user_authorization
+                    WHERE user_id = {q[0]};
+                    COMMIT
+                    """)
 
-            curs.execute(f"""
-                DELETE FROM user_type
-                WHERE user_id = {q[1]};
-                COMMIT
-                """)
-        try:
-            conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
-        except Exception as e:
-            print(f'Undefined error {e}')
+                curs.execute(f"""
+                    DELETE FROM user_type
+                    WHERE user_id = {q[1]};
+                    COMMIT
+                    """)
 
-        with conn.cursor() as curs:
-            curs.execute("""
-                SELECT task_id,task_workers FROM task_info
-                """)
-            w = curs.fetchall()
-            for i in w:
-                if q[0] in i[1]:
-                    new_list = list(i[1])
-                    new_list.pop(new_list.index(q[0]))
-                    curs.execute(f"""
-                        UPDATE task_info
-                        SET task_workers = {new_list}
-                        WHERE task_id = {i[0]};
-                        COMMIT
+                try:
+                    conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
+                except Exception as e:
+                    print(f'Undefined error {e}')
+
+                with conn.cursor() as curs:
+                    curs.execute("""
+                        SELECT task_id,task_workers FROM task_info
                         """)
+                    w = curs.fetchall()
+                    for i in w:
+                        if q[0] in i[1]:
+                            new_list = list(i[1])
+                            new_list.pop(new_list.index(q[0]))
+                            curs.execute(f"""
+                                UPDATE task_info
+                                SET task_workers = {new_list}
+                                WHERE task_id = {i[0]};
+                                COMMIT
+                                """)
 
-        # после этого выполняется следующий блок код
+                # после этого выполняется следующий блок код
 
-        self.update_foo()
+                self.update_foo()
 
     def widgets_add_task(self):
         """widgets_task."""
@@ -773,33 +789,75 @@ class Application(tkinter.ttk.Frame):
         vr_task_deadline = self.vr_task_deadline.get()
         day, month, year = vr_task_deadline.split('.')
         vr_task_descr = self.txt_task_description.get('1.0', tkinter.END)
+        flag_supervisor = False
+        flag_user = False
+        flag_can_be_supervisor = False
+
+        try:
+            conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
+        except Exception as e:
+            print(f'Undefined error {e}')
+        with conn.cursor() as curs:
+            curs.execute("SELECT user_id FROM user_authorization")
+            q = list(map(lambda x: x[0], curs.fetchall()))
+            if int(vr_task_supervisor) not in q:
+                flag_supervisor = True
+            for i in vr_task_workers:
+                if i not in q:
+                    flag_user = True
+                    break
+            if not flag_supervisor:
+                curs.execute(f"""
+                    SELECT user_fid FROM user_authorization
+                    WHERE user_id = {vr_task_supervisor}
+                    """)
+                q = curs.fetchone()[0]
+                curs.execute(f"""
+                    SELECT * FROM user_type
+                    WHERE user_id = {q}
+                    """)
+                q = curs.fetchone()
+                flag_can_be_supervisor = q[1] == 'B'
         try:
             conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
         except Exception as e:
             print(f'Undefined error {e}')
 
         with conn.cursor() as curs:
-            curs.execute("SELECT task_id FROM task_info")
-            counter = 0
-            flag = True
-            for i in sorted(curs.fetchall()):
-                if i[0] != counter:
+            curs.execute("SELECT task_name FROM task_info")
+            q = list(map(lambda x: x[0], curs.fetchall()))
+            if vr_task_name in q:
+                mb.showerror("Error!", f"Task with name {vr_task_name} already exist")
+            elif flag_supervisor:
+                mb.showerror("Error!", f"User with ID {vr_task_supervisor} doesnt exist")
+            elif flag_can_be_supervisor:
+                mb.showerror("Error!", "This user doesnt have enough permission")
+            elif flag_user:
+                mb.showerror("Error!", "Incorrect list of users")
+            elif datetime(day=int(day), month=int(month), year=int(year)) < datetime.now():
+                mb.showerror("Error!", "Incorrect deadline time")
+            else:
+                curs.execute("SELECT task_id FROM task_info")
+                counter = 0
+                flag = True
+                for i in sorted(curs.fetchall()):
+                    if i[0] != counter:
+                        vr_task_id = counter
+                        flag = False
+                        break
+                    counter += 1
+                if flag:
                     vr_task_id = counter
-                    flag = False
-                    break
-                counter += 1
-            if flag:
-                vr_task_id = counter
-            curs.execute(f"""
-                INSERT INTO task_info (task_id,task_name,task_supervisor,task_workers,percent,deadline,description)
-                VALUES ({vr_task_id},'{vr_task_name}',{vr_task_supervisor},ARRAY{vr_task_workers},0,
-                '{year}-{month}-{day}','{vr_task_descr}');
-                COMMIT
-                """)
+                curs.execute(f"""
+                    INSERT INTO task_info (task_id,task_name,task_supervisor,task_workers,percent,deadline,description)
+                    VALUES ({vr_task_id},'{vr_task_name}',{vr_task_supervisor},ARRAY{vr_task_workers},0,
+                    '{year}-{month}-{day}','{vr_task_descr}');
+                    COMMIT
+                    """)
 
-        # после этого выполняется следующий блок код
+                # после этого выполняется следующий блок код
 
-        self.update_foo()
+                self.update_foo()
 
     def widgets_del_task(self):
         """widgets_task."""
@@ -826,21 +884,26 @@ class Application(tkinter.ttk.Frame):
             print(f'Undefined error {e}')
 
         with conn.cursor() as curs:
-            curs.execute(f"""
-                DELETE FROM task_entry
-                WHERE task_id = {vr_del_task_id};
-                COMMIT
-                """)
+            curs.execute("SELECT task_id FROM task_info")
+            q = list(map(lambda x: x[0], curs.fetchall()))
+            if int(vr_del_task_id) not in q:
+                mb.showerror("Error!", f"Task with ID {vr_del_task_id} doesnt exist")
+            else:
+                curs.execute(f"""
+                    DELETE FROM task_entry
+                    WHERE task_id = {vr_del_task_id};
+                    COMMIT
+                    """)
 
-            curs.execute(f"""
-                DELETE FROM task_info
-                WHERE task_id = {vr_del_task_id};
-                COMMIT
-                """)
+                curs.execute(f"""
+                    DELETE FROM task_info
+                    WHERE task_id = {vr_del_task_id};
+                    COMMIT
+                    """)
 
-        # после этого выполняется следующий блок код
+                # после этого выполняется следующий блок код
 
-        self.update_foo()
+                self.update_foo()
 
 
 def pre_main():
