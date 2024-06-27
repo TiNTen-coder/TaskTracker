@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-25 16:09+0300\n"
-"PO-Revision-Date: 2024-06-25 16:09+0300\n"
-"Last-Translator: Butylkin A.S. <andrewbutylkin583@gmail.com>\n"
+"POT-Creation-Date: 2024-06-27 03:44+0300\n"
+"PO-Revision-Date: 2024-06-27 03:46+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru_RU\n"
 "Language-Team: ru_RU <LL@li.org>\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
@@ -19,124 +19,176 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.15.0\n"
 
-#: TaskTracker/__init__.py:175
+#: TaskTracker/__init__.py:177
 msgid "Update Info"
 msgstr "Обновить Информацию"
 
-#: TaskTracker/__init__.py:176
+#: TaskTracker/__init__.py:178
 msgid "Quit"
 msgstr "Выйти"
 
-#: TaskTracker/__init__.py:178
+#: TaskTracker/__init__.py:180
 msgid "Settings"
 msgstr "Настройки"
 
-#: TaskTracker/__init__.py:185
+#: TaskTracker/__init__.py:187
 msgid "Language"
 msgstr "Язык"
 
-#: TaskTracker/__init__.py:200
+#: TaskTracker/__init__.py:202
 msgid "Employees"
 msgstr "Сотрудники"
 
-#: TaskTracker/__init__.py:201
+#: TaskTracker/__init__.py:203
 msgid "Tasks"
 msgstr "Задачи"
 
-#: TaskTracker/__init__.py:202
+#: TaskTracker/__init__.py:204
 msgid "My Tasks"
 msgstr "Мои Задачи"
 
-#: TaskTracker/__init__.py:203
+#: TaskTracker/__init__.py:205
 msgid "Commit Progress"
 msgstr "Зафиксировать прогресс"
 
-#: TaskTracker/__init__.py:298 TaskTracker/__init__.py:550
+#: TaskTracker/__init__.py:301 TaskTracker/__init__.py:609
 msgid "Add Employee"
 msgstr "Добавить Сотрудника"
 
-#: TaskTracker/__init__.py:299 TaskTracker/__init__.py:571
+#: TaskTracker/__init__.py:302 TaskTracker/__init__.py:679
 msgid "Delete Employee"
 msgstr "Удалить Сотрудника"
 
-#: TaskTracker/__init__.py:300 TaskTracker/__init__.py:626
+#: TaskTracker/__init__.py:303 TaskTracker/__init__.py:785
 msgid "Add Task"
 msgstr "Добавить Задачу"
 
-#: TaskTracker/__init__.py:301 TaskTracker/__init__.py:647
+#: TaskTracker/__init__.py:304 TaskTracker/__init__.py:878
 msgid "Delete Task"
 msgstr "Удалить Задачу"
 
-#: TaskTracker/__init__.py:392 TaskTracker/__init__.py:416
-#: TaskTracker/__init__.py:462
+#: TaskTracker/__init__.py:400 TaskTracker/__init__.py:425
+#: TaskTracker/__init__.py:476
 msgid "ID"
 msgstr "Идентификатор"
 
-#: TaskTracker/__init__.py:393 TaskTracker/__init__.py:528
+#: TaskTracker/__init__.py:401 TaskTracker/__init__.py:587
 msgid "Name"
 msgstr "Имя"
 
-#: TaskTracker/__init__.py:394 TaskTracker/__init__.py:530
+#: TaskTracker/__init__.py:402 TaskTracker/__init__.py:589
 msgid "Type"
 msgstr "Тип"
 
-#: TaskTracker/__init__.py:417 TaskTracker/__init__.py:593
+#: TaskTracker/__init__.py:426 TaskTracker/__init__.py:752
 msgid "Task Name"
 msgstr "Название Задачи"
 
-#: TaskTracker/__init__.py:418
+#: TaskTracker/__init__.py:427
 msgid "Supervisor"
 msgstr "Руководитель"
 
-#: TaskTracker/__init__.py:419
+#: TaskTracker/__init__.py:428
 msgid "Workers"
 msgstr "Рабочие"
 
-#: TaskTracker/__init__.py:420 TaskTracker/__init__.py:463
-#: TaskTracker/__init__.py:489
+#: TaskTracker/__init__.py:429 TaskTracker/__init__.py:477
+#: TaskTracker/__init__.py:505
 msgid "Completion Percentage"
 msgstr "Процент Выполнимости"
 
-#: TaskTracker/__init__.py:421 TaskTracker/__init__.py:597
+#: TaskTracker/__init__.py:430 TaskTracker/__init__.py:756
 msgid "Deadline"
 msgstr "Крайний срок"
 
-#: TaskTracker/__init__.py:450
+#: TaskTracker/__init__.py:463
 msgid "task_id: {}, task_name: {}, completion_percentage: {}, deadline: {}"
 msgstr ""
 "идентификатор_задачи: {}, название_задачи: {}, процент_выполнимости: {}, "
 "крайний_срок: {}"
 
-#: TaskTracker/__init__.py:464 TaskTracker/__init__.py:491
-#: TaskTracker/__init__.py:596
+#: TaskTracker/__init__.py:479 TaskTracker/__init__.py:507
+#: TaskTracker/__init__.py:755
 msgid "Description"
 msgstr "Описание"
 
-#: TaskTracker/__init__.py:488 TaskTracker/__init__.py:639
+#: TaskTracker/__init__.py:504 TaskTracker/__init__.py:870
 msgid "Task ID"
 msgstr "Идентификатор Задачи"
 
-#: TaskTracker/__init__.py:511
+#: TaskTracker/__init__.py:527
 msgid "Commit"
 msgstr "Зафиксировать"
 
-#: TaskTracker/__init__.py:529
+#: TaskTracker/__init__.py:541 TaskTracker/__init__.py:622
+#: TaskTracker/__init__.py:691 TaskTracker/__init__.py:719
+#: TaskTracker/__init__.py:805 TaskTracker/__init__.py:830
+#: TaskTracker/__init__.py:890
+msgid "Undefined error {}"
+msgstr "Неизвестная ошибка {}"
+
+#: TaskTracker/__init__.py:547 TaskTracker/__init__.py:549
+#: TaskTracker/__init__.py:554 TaskTracker/__init__.py:628
+#: TaskTracker/__init__.py:697 TaskTracker/__init__.py:836
+#: TaskTracker/__init__.py:838 TaskTracker/__init__.py:840
+#: TaskTracker/__init__.py:842 TaskTracker/__init__.py:844
+#: TaskTracker/__init__.py:896
+msgid "Error!"
+msgstr "Ошибка!"
+
+#: TaskTracker/__init__.py:547 TaskTracker/__init__.py:896
+msgid "Task with ID {} doesnt exist"
+msgstr "Задачи под номером {} не существует"
+
+#: TaskTracker/__init__.py:549
+msgid "Percent is a number between 0 and 100"
+msgstr "Процент это число между 0 и 100 включительно"
+
+#: TaskTracker/__init__.py:554
+msgid "You cant commit progress in this project"
+msgstr "Вы не можете зафиксировать прогресс в этом проекте"
+
+#: TaskTracker/__init__.py:588
 msgid "Password"
 msgstr "Пароль"
 
-#: TaskTracker/__init__.py:563
+#: TaskTracker/__init__.py:628
+msgid "Name already exist"
+msgstr "Имя уже существует"
+
+#: TaskTracker/__init__.py:671
 msgid "Employee ID"
 msgstr "Идентификатор Сотрудника"
 
-#: TaskTracker/__init__.py:594
+#: TaskTracker/__init__.py:697 TaskTracker/__init__.py:838
+msgid "User with ID {} doesnt exist"
+msgstr "Пользователь с идентификатором {} не существует"
+
+#: TaskTracker/__init__.py:753
 msgid "Task Supervisor"
 msgstr "Руководитель Задачи"
 
-#: TaskTracker/__init__.py:595
+#: TaskTracker/__init__.py:754
 msgid "Task Workers"
 msgstr "Работники Задачи"
 
-#: TaskTracker/__init__.py:602
+#: TaskTracker/__init__.py:761
 msgid "Enter ID separated by space"
 msgstr "Введите идентификаторы через пробел"
+
+#: TaskTracker/__init__.py:836
+msgid "Task with name {} already exist"
+msgstr "Задача с именем {} уже существует"
+
+#: TaskTracker/__init__.py:840
+msgid "This user doesnt have enough permission"
+msgstr "У этого пользователя недостаточно прав"
+
+#: TaskTracker/__init__.py:842
+msgid "Incorrect list of workers"
+msgstr "Некорректный список работников"
+
+#: TaskTracker/__init__.py:844
+msgid "Incorrect deadline time"
+msgstr "Некорректный крайний срок"
 
