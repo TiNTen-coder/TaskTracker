@@ -68,14 +68,14 @@ def task_html():
 def task_style():
     """Check style against flake8."""
     return {
-            'actions': ['flake8 TaskTracker/scripts.py', 'flake8 TaskTracker/__main__.py']
+            'actions': ['flake8 TaskTracker']
            }
 
 
 def task_docstyle():
     """Check docstrings against pydocstyle."""
     return {
-            'actions': ['pydocstyle TaskTracker/scripts.py', 'pydocstyle TaskTracker/__main__.py']
+            'actions': ['pydocstyle TaskTracker']
            }
 
 
@@ -91,7 +91,7 @@ def task_all():
     """Perform all build task."""
     return {
             'actions': None,
-            'task_dep': ['i18n', 'check', 'html', 'wheel'] # TODO + [wheel']
+            'task_dep': ['i18n', 'check', 'html', 'wheel']
            }
 
 

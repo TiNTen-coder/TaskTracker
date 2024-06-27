@@ -4,11 +4,11 @@ TaskTracker API
 TaskTracker GUI
 ~~~~~~~~~~~~~~~
 .. automodule:: TaskTracker
-:members:
-:private-members:
+   :members:
+   :private-members:
 
-TaskTracker Scripts
+TaskTracker scripts
 ~~~~~~~~~~~~~~~~~~~
 .. automodule:: TaskTracker.scripts
-:members:
-:private-members:
+   :members:
+   :private-members:
