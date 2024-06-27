@@ -51,6 +51,7 @@ def task_test():
     """Test programm"""
     return {
         "actions": ["python3 -m unittest testing.py"],
+        'task_dep': ['i18n'],
     }
 
 
