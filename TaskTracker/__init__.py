@@ -538,20 +538,20 @@ class Application(tkinter.ttk.Frame):
         try:
             conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
         except Exception as e:
-            print(f'Undefined error {e}')
+            print(_('Undefined error {}').format(e))
 
         with conn.cursor() as curs:
             curs.execute("SELECT task_id FROM task_info")
             q = list(map(lambda x: x[0], curs.fetchall()))
             if int(task_id) not in q:
-                mb.showerror("Error!", f"Task with ID {task_id} doesnt exist")
+                mb.showerror(title=_("Error!"), message=_("Task with ID {} doesnt exist").format(task_id))
             elif not 0 <= percent <= 100:
-                mb.showerror("Error!", "Percent is a number between 0 and 100")
+                mb.showerror(title=_("Error!"), message=_("Percent is a number between 0 and 100"))
             else:
                 curs.execute("SELECT task_workers FROM task_info")
                 q = list(map(lambda x: x[0], curs.fetchall()))
                 if worker_id not in q:
-                    mb.showerror("Error!", "You cant commit progress in this project")
+                    mb.showerror(title=_("Error!"), message=_("You cant commit progress in this project"))
                 else:
                     curs.execute(f"""
                         UPDATE task_info
@@ -619,13 +619,13 @@ class Application(tkinter.ttk.Frame):
         try:
             conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
         except Exception as e:
-            print(f'Undefined error {e}')
+            print(_('Undefined error {}').format(e))
 
         with conn.cursor() as curs:
             curs.execute('SELECT user_name FROM user_authorization')
             q = list(map(lambda x: x[0], curs.fetchall()))
             if vr_user_name in q:
-                mb.showerror("Error!", "Name already exist!")
+                mb.showerror(title=_("Error!"), message=_("Name already exist"))
             else:
                 curs.execute("SELECT user_id FROM user_type")
                 counter = 0
@@ -688,13 +688,13 @@ class Application(tkinter.ttk.Frame):
         try:
             conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
         except Exception as e:
-            print(f'Undefined error {e}')
+            print(_('Undefined error {}').format(e))
 
         with conn.cursor() as curs:
             curs.execute('SELECT user_id FROM user_authorization')
             q = list(map(lambda x: x[0], curs.fetchall()))
             if int(vr_user_id) not in q:
-                mb.showerror("Error!", f"User with ID {vr_user_id} doesnt exist")
+                mb.showerror(title=_("Error!"), message=_("User with ID {} doesnt exist").format(vr_user_id))
             else:
                 curs.execute(f"""
                     SELECT user_id,user_fid FROM user_authorization
@@ -716,7 +716,7 @@ class Application(tkinter.ttk.Frame):
                 try:
                     conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
                 except Exception as e:
-                    print(f'Undefined error {e}')
+                    print(_('Undefined error {}').format(e))
 
                 with conn.cursor() as curs:
                     curs.execute("""
@@ -802,7 +802,7 @@ class Application(tkinter.ttk.Frame):
         try:
             conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
         except Exception as e:
-            print(f'Undefined error {e}')
+            print(_('Undefined error {}').format(e))
         with conn.cursor() as curs:
             curs.execute("SELECT user_id FROM user_authorization")
             q = list(map(lambda x: x[0], curs.fetchall()))
@@ -827,21 +827,21 @@ class Application(tkinter.ttk.Frame):
         try:
             conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
         except Exception as e:
-            print(f'Undefined error {e}')
+            print(_('Undefined error {}').format(e))
 
         with conn.cursor() as curs:
             curs.execute("SELECT task_name FROM task_info")
             q = list(map(lambda x: x[0], curs.fetchall()))
             if vr_task_name in q:
-                mb.showerror("Error!", f"Task with name {vr_task_name} already exist")
+                mb.showerror(title=_("Error!"), message=_("Task with name {} already exist").format(vr_task_name))
             elif flag_supervisor:
-                mb.showerror("Error!", f"User with ID {vr_task_supervisor} doesnt exist")
+                mb.showerror(title=_("Error!"), message=_("User with ID {} doesnt exist").format(vr_task_supervisor))
             elif flag_can_be_supervisor:
-                mb.showerror("Error!", "This user doesnt have enough permission")
+                mb.showerror(title=_("Error!"), message=_("This user doesnt have enough permission"))
             elif flag_user:
-                mb.showerror("Error!", "Incorrect list of users")
+                mb.showerror(title=_("Error!"), message=_("Incorrect list of workers"))
             elif datetime(day=int(day), month=int(month), year=int(year)) < datetime.now():
-                mb.showerror("Error!", "Incorrect deadline time")
+                mb.showerror(title=_("Error!"), message=_("Incorrect deadline time"))
             else:
                 curs.execute("SELECT task_id FROM task_info")
                 counter = 0
@@ -887,13 +887,13 @@ class Application(tkinter.ttk.Frame):
         try:
             conn = psycopg2.connect("dbname = 'db_task' user = 'postgres' host='localhost' password='0852'")
         except Exception as e:
-            print(f'Undefined error {e}')
+            print(_('Undefined error {}').format(e))
 
         with conn.cursor() as curs:
             curs.execute("SELECT task_id FROM task_info")
             q = list(map(lambda x: x[0], curs.fetchall()))
             if int(vr_del_task_id) not in q:
-                mb.showerror("Error!", f"Task with ID {vr_del_task_id} doesnt exist")
+                mb.showerror(title=_("Error!"), message=_("Task with ID {} doesnt exist").format(vr_del_task_id))
             else:
                 curs.execute(f"""
                     DELETE FROM task_entry
@@ -922,7 +922,7 @@ def pre_main():
         print('Incorrect positional arguments')
     else:
         if len(sys.argv) == 1:
-            print('Using superuser mode')
+            print("Using superuser mode")
             user = 'admin'
             password = 'admin'
         else:
@@ -931,7 +931,7 @@ def pre_main():
         try:
             conn = psycopg2.connect("dbname = 'db_user' user = 'postgres' host='localhost' password='0852'")
         except Exception as e:
-            print(f'Undefined error {e}')
+            print('Undefined error {}'.format(e))
 
         with conn.cursor() as curs:
             curs.execute(f"""
